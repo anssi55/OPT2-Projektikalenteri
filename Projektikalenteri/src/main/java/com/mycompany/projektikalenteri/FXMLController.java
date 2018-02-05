@@ -1,6 +1,7 @@
 package com.mycompany.projektikalenteri;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,7 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
 public class FXMLController implements Initializable {
-    
+    DatabaseHandler handler = new DatabaseHandler();
     @FXML
     private Text promptText;
     
@@ -19,7 +20,7 @@ public class FXMLController implements Initializable {
     private TextField usernameTextfield;
 
     @FXML
-    private PasswordField passwordTextfield;
+    private PasswordField passwordField;
     
     @FXML
     private void handleButtonAction(ActionEvent event) {
@@ -32,6 +33,14 @@ public class FXMLController implements Initializable {
         } else {
             System.out.println("Yritetään kirjautua!");
             promptText.setText("Yritetään kirjautua!");
+            try{
+                String user = usernameTextfield.getText();
+                String passwd = passwordField.getText();
+                boolean addUser = handler.addUser(user, passwd);
+            } catch (SQLException ex) {
+                System.out.println("Kirjautuminen epäonnistui");
+                
+            }
         }
         
     }
