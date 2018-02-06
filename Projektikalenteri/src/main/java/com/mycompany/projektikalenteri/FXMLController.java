@@ -59,7 +59,7 @@ public class FXMLController implements Initializable {
         
     }
     
-    // Siirtyminen rekisteröintinäkymään
+    // Siirtyminen kirjautumisnäkymään
     @FXML
     private void handleRegistrationSceneButtonAction(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
@@ -72,7 +72,7 @@ public class FXMLController implements Initializable {
         stage.show();
     }
     
-    // Siirtyminen kirjautumisnäkymään
+    // Siirtyminen rekisteröintinäkymään
     @FXML
     private void handleLoginSceneButtonAction(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
