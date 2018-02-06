@@ -9,16 +9,16 @@ import javafx.stage.Stage;
 
 
 public class MainApp extends Application {
-
+    
     @Override
     public void start(Stage stage) throws Exception {
         Parent login = FXMLLoader.load(getClass().getResource("/fxml/LoginScene.fxml"));
         
-        Scene logincene = new Scene(login);
-        logincene.getStylesheets().addAll("/styles/Styles.css", "/styles/LoginStyles.css");
+        Scene loginScene = new Scene(login);
+        loginScene.getStylesheets().addAll("/styles/Styles.css", "/styles/LoginStyles.css");
         
-        stage.setTitle("Projektikalenteri");
-        stage.setScene(logincene);
+        stage.setTitle("Projektikalenteri - Kirjautuminen");
+        stage.setScene(loginScene);
         stage.show();
     }
 
