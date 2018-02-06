@@ -12,16 +12,18 @@
 <GridPane id="LoginPane" xmlns:fx="http://javafx.com/fxml" fx:controller="com.mycompany.projektikalenteri.FXMLController"  alignment="center" hgap="10" vgap="10">
     <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
 
-    <Text text="Tervetuloa" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2" fx:id="welcomeText" />
+    <Button GridPane.columnIndex="1" GridPane.rowIndex="0" text="Rekisteröityminen" onAction="#handleLoginSceneButtonAction" fx:id="loginSelectButton" />
 
-    <Label GridPane.columnIndex="0" GridPane.rowIndex="1" minHeight="16" minWidth="69" fx:id="usernameLabel" text="Käyttäjätunnus"/>
-    <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" minHeight="16" minWidth="69" fx:id="usernameTextfield" />
+    <Text text="Tervetuloa" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2" fx:id="welcomeText" />
 
-    <Label GridPane.columnIndex="0" GridPane.rowIndex="2" minHeight="16" minWidth="69" fx:id="passwordLabel" text="Salasana" />
-    <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="2" minHeight="16" minWidth="69" fx:id="passwordField" />        
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="2" minHeight="16" minWidth="69" fx:id="usernameLabel" text="Käyttäjätunnus"/>
+    <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" minHeight="16" minWidth="69" fx:id="usernameTextfield" />
 
-    <Button GridPane.columnIndex="1" GridPane.rowIndex="4" text="Kirjaudu!" onAction="#handleButtonAction" fx:id="button" />
-    <Text text="Syötä tiedot ja paina kirjaudu!" GridPane.columnIndex="1" GridPane.rowIndex="6" fx:id="promptText" />
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="3" minHeight="16" minWidth="69" fx:id="passwordLabel" text="Salasana" />
+    <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="3" minHeight="16" minWidth="69" fx:id="passwordField" />        
+
+    <Button GridPane.columnIndex="1" GridPane.rowIndex="5" text="Kirjaudu!" onAction="#handleLoginButtonAction" fx:id="LoginButton" />
+    <Text text="Syötä tiedot ja paina kirjaudu!" GridPane.columnIndex="1" GridPane.rowIndex="6" fx:id="promptLoginText" />
     
 </GridPane>
 

@@ -11,7 +11,7 @@
 <GridPane id="LoginPane" xmlns:fx="http://javafx.com/fxml" fx:controller="com.mycompany.projektikalenteri.FXMLController"  alignment="center" hgap="10" vgap="10">
     <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
     
-    <Button GridPane.columnIndex="1" GridPane.rowIndex="0" text="Kirjautuminen" onAction="#handleButtonAction" fx:id="loginSelectButton" />
+    <Button GridPane.columnIndex="1" GridPane.rowIndex="0" text="Kirjautuminen" onAction="#handleRegistrationSceneButtonAction" fx:id="loginSelectButton" />
 
     <Text text="Rekisteröityminen" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2" fx:id="registrationText" />
 
@@ -27,7 +27,7 @@
     <Label GridPane.columnIndex="0" GridPane.rowIndex="5" minHeight="16" minWidth="69" fx:id="displayNameLabel" text="Näyttönimi" />
     <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="5" minHeight="16" minWidth="69" fx:id="displayNameField" /> 
     
-    <Button GridPane.columnIndex="1" GridPane.rowIndex="7" text="Rekisteröidy!" onAction="#handleButtonAction" fx:id="registrationButton" />
+    <Button GridPane.columnIndex="1" GridPane.rowIndex="7" text="Rekisteröidy!" onAction="#handleRegistrationButtonAction" fx:id="registrationButton" />
     <Text text="Syötä tiedot ja paina rekisteröidy!" GridPane.columnIndex="1" GridPane.rowIndex="6" fx:id="promptRegistrationText" />
     
 </GridPane>
