@@ -1,5 +1,7 @@
 package com.mycompany.projektikalenteri;
 
+import java.util.ArrayList;
+
 /**
  * Created by Miika on 7.2.2018.
  */
@@ -13,6 +15,10 @@ public class Kayttaja {
     private String salasana;
 
     private String nayttonimi;
+    
+    private ArrayList<Projekti> pomona;
+    
+    private ArrayList<Projekti> tekijana;
 
 
     public String getKayttajatunnus() {
@@ -20,7 +26,7 @@ public class Kayttaja {
     }
 
     public void setKayttajatunnus(String name) {
-        Kayttajatunnus = Kayttajatunnus;
+        Kayttajatunnus = name;
     }
 
 
@@ -48,6 +54,14 @@ public class Kayttaja {
     public void setId(int id) {
         this.id = id;
     }
+    public Projekti luoProjekti(String nimi) {
+        Projekti projekti = new Projekti(nimi, this);
+        pomona.add(projekti);
+        return projekti;   
+    }
+    
+            
+    
 
 
     @Override

@@ -16,7 +16,7 @@ public class DatabaseHandler {
         }
         try {
             Connection conn = DriverManager.getConnection(
-            "jdbc:mysql:10.114.34.77:3306/projektikalenteri", "anssi", "makkara2");
+            "jdbc:mysql:localhost:2222/projektikalenteri", "anssi", "makkara2");
             
             return conn;
     
