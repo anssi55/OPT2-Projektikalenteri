@@ -39,7 +39,7 @@ public class FXMLController implements Initializable {
 //            promptText.setText("Syötä salasana!!");
         } else {
             System.out.println("Yritetään kirjautua!");
-            promptText.setText("Yritetään kirjautua!");
+            
             try{
                 String user = usernameTextfield.getText();
                 String passwd = passwordField.getText();
