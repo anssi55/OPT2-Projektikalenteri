@@ -5,20 +5,31 @@ package com.mycompany.projektikalenteri;
  * @author anssi
  */
 public class Kalenterimerkinta {
-    private String nimi;
-    private Kayttaja kayttaja;
-    private Projekti projekti;
+    private String id;
+    private String kayttaja;
+    private String projekti;
     private String merkinta;
     private String alkuaika;
     private String loppuaika;
     
-    public Kalenterimerkinta(String nimi, Kayttaja kayttaja) {
-        this.kayttaja = kayttaja;
-        this.nimi = nimi;
+    public Kalenterimerkinta(Kayttaja kayttaja) {
+        this.kayttaja = kayttaja.getNayttonimi();
+        
 }
-    public Kalenterimerkinta(String nimi, Kayttaja kayttaja, Projekti projekti) {
-        this.projekti = projekti;
-        this.nimi = nimi;
+    public Kalenterimerkinta( Kayttaja kayttaja, Projekti projekti) {
+        this.projekti = projekti.getNimi();
+        
+    }
+    public Kalenterimerkinta(String id, String kayttaja, String merkinta) {
+    	this.id= id;
+    	this.kayttaja= kayttaja;
+    	this.merkinta = merkinta;
+    }
+    public Kalenterimerkinta(String id, String kayttaja, String projekti, String merkinta) {
+    	this.id = id;
+    	this.kayttaja = kayttaja;
+    	this.projekti= projekti;
+    	this.merkinta = merkinta;
     }
     public void setAika(String alkuaika, String loppuaika) {
         this.alkuaika= alkuaika;
@@ -26,11 +37,11 @@ public class Kalenterimerkinta {
     }
 
     public String getNimi() {
-        return nimi;
+        return id;
     }
 
     public void setNimi(String nimi) {
-        this.nimi = nimi;
+        this.id = nimi;
     }
 
     public String getMerkinta() {
@@ -57,11 +68,11 @@ public class Kalenterimerkinta {
         this.loppuaika = loppuaika;
     }
 
-    public Kayttaja getKayttaja() {
+    public String getKayttaja() {
         return kayttaja;
     }
 
-    public Projekti getProjekti() {
+    public String getProjekti() {
         return projekti;
     }
     
