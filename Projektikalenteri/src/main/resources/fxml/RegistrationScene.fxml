@@ -25,9 +25,12 @@
     <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="4" minHeight="16" minWidth="69" fx:id="passwordConfirmField" />  
     
     <Label GridPane.columnIndex="0" GridPane.rowIndex="5" minHeight="16" minWidth="69" fx:id="displayNameLabel" text="Näyttönimi" />
-    <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="5" minHeight="16" minWidth="69" fx:id="displayNameField" /> 
+    <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" minHeight="16" minWidth="69" fx:id="displayNameField" /> 
     
-    <Button GridPane.columnIndex="1" GridPane.rowIndex="7" text="Rekisteröidy!" onAction="#handleRegistrationButtonAction" fx:id="registrationButton" />
-    <Text text="Syötä tiedot ja paina rekisteröidy!" GridPane.columnIndex="1" GridPane.rowIndex="6" fx:id="promptRegistrationText" />
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="6" minHeight="16" minWidth="69" fx:id="emailLabel" text="Sähköposti" />
+    <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" minHeight="16" minWidth="69" fx:id="emailField" />
+
+    <Button GridPane.columnIndex="1" GridPane.rowIndex="8" text="Rekisteröidy!" onAction="#handleRegistrationButtonAction" fx:id="registrationButton" />
+    <Text text="Syötä tiedot ja paina rekisteröidy!" GridPane.columnIndex="1" GridPane.rowIndex="9" fx:id="promptRegistrationText" />
     
 </GridPane>
