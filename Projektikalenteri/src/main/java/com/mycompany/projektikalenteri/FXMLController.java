@@ -27,6 +27,12 @@ public class FXMLController implements Initializable {
 
     @FXML
     private PasswordField passwordField;
+    @FXML
+    private PasswordField passwordConfirmField;
+    @FXML
+    private TextField emailField;
+    @FXML
+    private TextField displayNameField;
     
     // Kirjautumispainikkeen toiminnot
     @FXML
@@ -57,6 +63,33 @@ public class FXMLController implements Initializable {
     // Rekisteröimispainikkeen toiminnot
     @FXML
     private void handleRegistrationButtonAction(ActionEvent event) {
+        System.out.println("Painoit rekisteröitymispainiketta!");
+        if (usernameTextfield.getText().trim().isEmpty()) {
+            promptText.setText("Syötä käyttäjätunnus!");
+//        } else if (passwordTextfield.getText().trim().isEmpty()) {
+//            promptText.setText("Syötä salasana!!");
+        } 
+        if (passwordField.getText().equals(passwordConfirmField.getText())){
+
+                   
+	        try{
+	            String user = usernameTextfield.getText();
+	            String passwd = passwordField.getText();
+	            String email = emailField.getText();
+	            String displayName = displayNameField.getText();
+	            boolean userAdded = handler.addUser(user, passwd, email, displayName);
+	            
+	            if (userAdded) {
+	            	System.out.println("Rekisteröityminen onnistui!");
+	            }
+	
+	        } catch (SQLException ex) {
+	            System.out.println("Rekisteröityminen epäonnistui");
+	            ex.printStackTrace();
+	        }
+        } else {
+        	System.out.println("Salasanat ei täsmää");
+        }
         
         
     }

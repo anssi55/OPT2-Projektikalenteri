@@ -28,7 +28,7 @@ public class DatabaseHandler {
         
         try {
             Connection conn = DriverManager.getConnection(
-            "jdbc:mysql://localhost:3306/projektikalenteri?user=root&password=");
+            "jdbc:mysql://localhost:3306/projektikalenteri2?user=root&password=");
             
             return conn;
     
@@ -41,17 +41,19 @@ public class DatabaseHandler {
         return null;
 }
     
-    public boolean addUser(String user, String password) throws SQLException {
+    public boolean addUser(String user, String password, String email, String displayName) throws SQLException {
         
         int n = 0;
         try (Connection c = connect()) {
             PreparedStatement insertUser;
-            String insertString = "INSERT INTO User (user, password) "
-                    + "VALUES (?, ?)";
+            String insertString = "INSERT INTO User (name, password, email, displayName) "
+                    + "VALUES (?, ?, ?, ?)";
             c.setAutoCommit(false);
             insertUser = c.prepareStatement(insertString);
             insertUser.setString(1, user);
             insertUser.setString(2, password);
+            insertUser.setString(3, email);
+            insertUser.setString(4, displayName);
             n = insertUser.executeUpdate();
             c.commit();
         } 
@@ -106,8 +108,7 @@ public class DatabaseHandler {
         System.out.println("Salasana oikein");
         Kayttaja k = new Kayttaja(id, email, dname);
         loadProjects(k, id, c);
-        
-        
+
 		return k;
     	
     }
@@ -115,12 +116,12 @@ public class DatabaseHandler {
     	
     	ResultSet rs;
         
-            PreparedStatement insertUser;
-            String insertString = "SELECT * from Project "
-                    + "WHERE boss = ?";
-            c.setAutoCommit(false);
-            insertUser = c.prepareStatement(insertString);
-            insertUser.setInt(1, id);
+        PreparedStatement insertUser;
+        String insertString = "SELECT * from Project "
+                + "WHERE boss = ?";
+        c.setAutoCommit(false);
+        insertUser = c.prepareStatement(insertString);
+        insertUser.setInt(1, id);
             
             rs = insertUser.executeQuery();
             c.commit();
@@ -169,10 +170,6 @@ public class DatabaseHandler {
             
             rs = insertUser.executeQuery();
             c.commit();
-			
-				
-			
-            
         
         while(rs.next()) {
 	        String pid= rs.getString("id");
@@ -234,6 +231,3 @@ public class DatabaseHandler {
         }
    }
 }
-
-    
-
