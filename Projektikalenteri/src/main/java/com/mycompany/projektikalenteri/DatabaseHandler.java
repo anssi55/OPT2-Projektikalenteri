@@ -61,24 +61,47 @@ public class DatabaseHandler {
             
         return false;
     }
-    public Kayttaja loadUser(String email) throws SQLException {
-    	
-    	ResultSet rs;
+    public boolean addProject(String name, Kayttaja k) throws SQLException {
+        
+        int n = 0;
         try (Connection c = connect()) {
             PreparedStatement insertUser;
-            String insertString = "SELECT * from Users "
-                    + "WHERE email = ?";
+            String insertString = "INSERT INTO Project (name, boss) "
+                    + "VALUES (?, ?)";
             c.setAutoCommit(false);
             insertUser = c.prepareStatement(insertString);
-            insertUser.setString(0, email);
-            
-            rs = insertUser.executeQuery();
+            insertUser.setString(0, name);
+            insertUser.setString(1, k.getId());
+            n = insertUser.executeUpdate();
             c.commit();
         } 
+        if(n == 1) {
+            return true;
+        }
+            
+        return false;
+    }
+    public Kayttaja loadUser(String email) throws SQLException {
+    	Connection c;
+    	ResultSet rs;
+        
+    	c = connect();
+        PreparedStatement insertUser;
+        String insertString = "SELECT * from Users "
+                + "WHERE email = ?";
+        c.setAutoCommit(false);
+        insertUser = c.prepareStatement(insertString);
+        insertUser.setString(0, email);
+        
+        rs = insertUser.executeQuery();
+        c.commit();
+        
         String id= rs.getString("id");
         String dname = rs.getString("displayName");
         String name = rs.getString("name");
         Kayttaja k = new Kayttaja(id, email, dname);
+        loadProjects(k, id, c);
+        
         
 		return k;
     	
@@ -101,6 +124,7 @@ public class DatabaseHandler {
 	        String pid= rs.getString("id");
 	        String name = rs.getString("name");
 	        String boss = rs.getString("boss");
+	        boss = getNickname(boss, c);
 	        Projekti p = new Projekti(id, name, boss);
 	        loadProjectEntrys(p, pid, c);
 	        k.lisaaPomona(p);
@@ -121,6 +145,7 @@ public class DatabaseHandler {
 	        String pid= rs.getString("id");
 	        String name = rs.getString("name");
 	        String boss = rs.getString("boss");
+	        boss = getNickname(boss, c);
 	        Projekti p = new Projekti(id, name, boss);
 	        loadProjectEntrys(p, pid, c);
 	        k.lisaaTekijana(p);
@@ -147,7 +172,7 @@ public class DatabaseHandler {
         while(rs.next()) {
 	        String pid= rs.getString("id");
 	        String username = rs.getString("user_id");
-	        username = getEntryMaker(username, c);
+	        username = getNickname(username, c);
 	        String sdate = rs.getString("startingTime");
 	        String edate = rs.getString("endTime");
 	        String text = rs.getString("data");
@@ -157,8 +182,9 @@ public class DatabaseHandler {
         
         }
     }
-    public String getEntryMaker(String id, Connection c) {
+    public String getNickname(String id, Connection c) {
     	ResultSet rs = null;
+    	String pid = null;
         try {
             PreparedStatement insertUser;
             String insertString = "SELECT displayName from User "
@@ -169,15 +195,9 @@ public class DatabaseHandler {
             
             rs = insertUser.executeQuery();
             c.commit();
-        } catch (SQLException e) {
-			
-			e.printStackTrace();
-		}
-        String pid = null;
-		try {
-			pid = rs.getString("id");
+            pid = rs.getString("id");
+        
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	return pid;
@@ -196,10 +216,6 @@ public class DatabaseHandler {
             rs = insertUser.executeQuery();
             c.commit();
 			
-				
-			
-            
-        
         while(rs.next()) {
 	        String pid= rs.getString("id");
 	        String username = rs.getString("user_id");
