@@ -28,7 +28,7 @@ public class DatabaseHandler {
         
         try {
             Connection conn = DriverManager.getConnection(
-            "jdbc:mysql://localhost:3306/projektikalenteri2?user=root&password=");
+            "jdbc:mysql://192.168.100.33:3306/projektikalenteri?user=root&password=kakka123");
             
             return conn;
     
@@ -36,6 +36,8 @@ public class DatabaseHandler {
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
+            System.out.print("StackTrace: ");
+            ex.printStackTrace();
             System.exit(0);
         }
         return null;
