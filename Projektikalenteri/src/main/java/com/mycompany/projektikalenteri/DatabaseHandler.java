@@ -81,24 +81,28 @@ public class DatabaseHandler {
             
         return false;
     }
-    public Kayttaja loadUser(String email) throws SQLException {
+    public Kayttaja loadUser(String username, String passw) throws SQLException {
     	Connection c;
     	ResultSet rs;
         
     	c = connect();
         PreparedStatement insertUser;
         String insertString = "SELECT * from Users "
-                + "WHERE email = ?";
+                + "WHERE name = ?";
         c.setAutoCommit(false);
         insertUser = c.prepareStatement(insertString);
-        insertUser.setString(0, email);
+        insertUser.setString(0, username);
         
         rs = insertUser.executeQuery();
         c.commit();
         
         String id= rs.getString("id");
         String dname = rs.getString("displayName");
-        String name = rs.getString("name");
+        String email = rs.getString("email");
+        String password = rs.getString("password");
+        if(password != passw) {
+        	return null;
+        }
         Kayttaja k = new Kayttaja(id, email, dname);
         loadProjects(k, id, c);
         
