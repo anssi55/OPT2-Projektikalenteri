@@ -43,9 +43,11 @@ public class FXMLController implements Initializable {
             try{
                 String user = usernameTextfield.getText();
                 String passwd = passwordField.getText();
-                boolean addUser = handler.addUser(user, passwd);
+                Kayttaja addUser = handler.loadUser(user, passwd);
+
             } catch (SQLException ex) {
                 System.out.println("Kirjautuminen epäonnistui");
+                ex.printStackTrace();
                 
             }
         }

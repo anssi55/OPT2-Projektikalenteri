@@ -14,7 +14,7 @@ import java.util.Calendar;
  * @author anssi
  */
 public class Projekti {
-	private String id;
+	private int id;
     private String nimi;
     private String pomo;
     private ArrayList<String> tiimilaiset;
@@ -29,7 +29,7 @@ public class Projekti {
         merkinnat = new ArrayList();
         
     }
-    public Projekti(String id, String nimi, String pomo) {
+    public Projekti(int id, String nimi, String pomo) {
     	this.id = id;
     	this.nimi = nimi;
     	this.pomo = pomo;

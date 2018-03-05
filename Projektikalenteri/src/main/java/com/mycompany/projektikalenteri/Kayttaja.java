@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Kayttaja {
 
 
-    private String id;
+    private int id;
 
     private String Kayttajatunnus;
 
@@ -22,7 +22,7 @@ public class Kayttaja {
     
     private ArrayList<Kalenterimerkinta> merkinnat;
     
-    public Kayttaja(String id, String email, String nayttonimi) {
+    public Kayttaja(int id, String email, String nayttonimi) {
     	this.id = id;
     	this.Kayttajatunnus = email;
     	this.nayttonimi = nayttonimi;
@@ -59,11 +59,11 @@ public class Kayttaja {
         this.nayttonimi = nayttonimi;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
     public Projekti luoProjekti(String nimi) {

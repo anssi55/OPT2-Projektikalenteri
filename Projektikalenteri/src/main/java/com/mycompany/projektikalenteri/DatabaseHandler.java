@@ -28,7 +28,7 @@ public class DatabaseHandler {
         
         try {
             Connection conn = DriverManager.getConnection(
-            "jdbc:mysql://localhost:2222/projektikalenteri?user=anssi&password=makkara2");
+            "jdbc:mysql://localhost:3306/projektikalenteri?user=root&password=");
             
             return conn;
     
@@ -50,8 +50,8 @@ public class DatabaseHandler {
                     + "VALUES (?, ?)";
             c.setAutoCommit(false);
             insertUser = c.prepareStatement(insertString);
-            insertUser.setString(0, user);
-            insertUser.setString(1, password);
+            insertUser.setString(1, user);
+            insertUser.setString(2, password);
             n = insertUser.executeUpdate();
             c.commit();
         } 
@@ -70,8 +70,8 @@ public class DatabaseHandler {
                     + "VALUES (?, ?)";
             c.setAutoCommit(false);
             insertUser = c.prepareStatement(insertString);
-            insertUser.setString(0, name);
-            insertUser.setString(1, k.getId());
+            insertUser.setString(1, name);
+            insertUser.setInt(2, k.getId());
             n = insertUser.executeUpdate();
             c.commit();
         } 
@@ -87,22 +87,23 @@ public class DatabaseHandler {
         
     	c = connect();
         PreparedStatement insertUser;
-        String insertString = "SELECT * from Users "
+        String insertString = "SELECT * from User "
                 + "WHERE name = ?";
-        c.setAutoCommit(false);
         insertUser = c.prepareStatement(insertString);
-        insertUser.setString(0, username);
-        
+        insertUser.setString(1, username);
         rs = insertUser.executeQuery();
-        c.commit();
+        rs.next();
         
-        String id= rs.getString("id");
+
+        int id= rs.getInt("id");
         String dname = rs.getString("displayName");
         String email = rs.getString("email");
         String password = rs.getString("password");
-        if(password != passw) {
+        if(!password.equals(passw)) {
+        	System.out.println("Väärä salasana");
         	return null;
         }
+        System.out.println("Salasana oikein");
         Kayttaja k = new Kayttaja(id, email, dname);
         loadProjects(k, id, c);
         
@@ -110,7 +111,7 @@ public class DatabaseHandler {
 		return k;
     	
     }
-    public void loadProjects(Kayttaja k, String id, Connection c) throws SQLException {
+    public void loadProjects(Kayttaja k, int id, Connection c) throws SQLException {
     	
     	ResultSet rs;
         
@@ -119,7 +120,7 @@ public class DatabaseHandler {
                     + "WHERE boss = ?";
             c.setAutoCommit(false);
             insertUser = c.prepareStatement(insertString);
-            insertUser.setString(0, id);
+            insertUser.setInt(1, id);
             
             rs = insertUser.executeQuery();
             c.commit();
@@ -140,7 +141,7 @@ public class DatabaseHandler {
                 + "WHERE user_id  = ?";
         c.setAutoCommit(false);
         insertUser2 = c.prepareStatement(insertString2);
-        insertUser2.setString(0, id);
+        insertUser2.setInt(1, id);
         
         rs = insertUser2.executeQuery();
         c.commit();
@@ -164,7 +165,7 @@ public class DatabaseHandler {
         
 			c.setAutoCommit(false);
 			insertUser = c.prepareStatement(insertString);
-            insertUser.setString(0, id);
+            insertUser.setString(1, id);
             
             rs = insertUser.executeQuery();
             c.commit();
@@ -195,7 +196,7 @@ public class DatabaseHandler {
                     + "WHERE id = ?";
             c.setAutoCommit(false);
             insertUser = c.prepareStatement(insertString);
-            insertUser.setString(0, id);
+            insertUser.setString(1, id);
             
             rs = insertUser.executeQuery();
             c.commit();
@@ -215,7 +216,7 @@ public class DatabaseHandler {
         
 			c.setAutoCommit(false);
 			insertUser = c.prepareStatement(insertString);
-            insertUser.setString(0, id);
+            insertUser.setString(1, id);
             
             rs = insertUser.executeQuery();
             c.commit();
