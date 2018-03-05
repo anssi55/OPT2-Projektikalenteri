@@ -21,10 +21,8 @@ public class FXMLController implements Initializable {
     DatabaseHandler handler = new DatabaseHandler();
     @FXML
     private Text promptText;
-    
     @FXML
     private TextField usernameTextfield;
-
     @FXML
     private PasswordField passwordField;
     @FXML
@@ -69,9 +67,7 @@ public class FXMLController implements Initializable {
 //        } else if (passwordTextfield.getText().trim().isEmpty()) {
 //            promptText.setText("Syötä salasana!!");
         } 
-        if (passwordField.getText().equals(passwordConfirmField.getText())){
-
-                   
+        if (passwordField.getText().equals(passwordConfirmField.getText())){            
 	        try{
 	            String user = usernameTextfield.getText();
 	            String passwd = passwordField.getText();
