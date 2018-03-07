@@ -45,7 +45,16 @@ public class Projekti {
         this.nimi = nimi;
     }
 
-    public String getPomo() {
+    public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public void setPomo(String pomo) {
+		this.pomo = pomo;
+	}
+	public String getPomo() {
         return pomo;
     }
 

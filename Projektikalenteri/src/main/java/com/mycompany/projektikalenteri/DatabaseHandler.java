@@ -65,19 +65,123 @@ public class DatabaseHandler {
             
         return false;
     }
+    public boolean addUserEntry(Kayttaja user, String alku, String loppu, String data) throws SQLException {
+        
+        int n = 0;
+        try (Connection c = connect()) {
+            PreparedStatement insertEntry;
+            String insertString = "INSERT INTO Entry (user_id, startingTime, endTime, data) "
+                    + "VALUES (?, ?, ?, ?)";
+            
+            insertEntry = c.prepareStatement(insertString);
+            insertEntry.setString(1, "" + user.getId());
+            insertEntry.setString(2, alku);
+            insertEntry.setString(3, loppu);
+            insertEntry.setString(4, data);
+            n = insertEntry.executeUpdate();
+            
+            PreparedStatement getEntry;
+            String insertString2 = "SELECT id FROM Entry WHERE user_id = ? AND startingTime = ?"
+            		+ " AND endTime = ? AND data = ?";
+                    
+            
+            getEntry = c.prepareStatement(insertString2);
+            getEntry.setString(1, "" + user.getId());
+            getEntry.setString(2, alku);
+            getEntry.setString(3, loppu);
+            getEntry.setString(4, data);
+            ResultSet rs = getEntry.executeQuery();
+            rs.next();
+            int id = rs.getInt("id");
+            Kalenterimerkinta m = new Kalenterimerkinta(id, user.getNayttonimi(), data);
+            user.lisaaMerkinnat(m);
+            
+        } 
+        if(n == 1) {
+            return true;
+        }
+            
+        return false;
+    }
+    public boolean addProjectEntry(Kayttaja user, Projekti project, String alku, String loppu, String data) throws SQLException {
+        
+        int n = 0;
+        try (Connection c = connect()) {
+            PreparedStatement insertEntry;
+            String insertString = "INSERT INTO Entry (user_id, project_id, startingTime, endTime, data) "
+                    + "VALUES (?, ?, ?, ?, ?)";
+            
+            insertEntry = c.prepareStatement(insertString);
+            insertEntry.setString(1, "" + user.getId());
+            insertEntry.setString(2, "" +project.getId());
+            insertEntry.setString(3, alku);
+            insertEntry.setString(4, loppu);
+            insertEntry.setString(5, data);
+            
+            n = insertEntry.executeUpdate();
+            
+            PreparedStatement getEntry;
+            String insertString2 = "SELECT id FROM Entry WHERE user_id = ? AND project_id = ? AND startingTime = ?"
+            		+ " AND endTime = ? AND data = ?";
+                    
+            
+            getEntry = c.prepareStatement(insertString2);
+            getEntry.setString(1, ""+ user.getId());
+            getEntry.setString(2, ""+project.getId());
+            getEntry.setString(3, alku);
+            getEntry.setString(4, loppu);
+            getEntry.setString(5, data);
+            ResultSet rs = getEntry.executeQuery();
+            rs.next();
+            int id = rs.getInt("id");
+            Kalenterimerkinta m = new Kalenterimerkinta(id, user.getNayttonimi(), project.getNimi(), data);
+            project.lisaaMerkinnat(m);
+            
+        } 
+        if(n == 1) {
+            return true;
+        }
+            
+        return false;
+    }
     public boolean addProject(String name, Kayttaja k) throws SQLException {
         
         int n = 0;
         try (Connection c = connect()) {
-            PreparedStatement insertUser;
+        	PreparedStatement checkProject;
+            String insertString3 = "SELECT id from Project "
+                    + "WHERE name = ?  AND boss = ?";
+            
+            checkProject = c.prepareStatement(insertString3);
+            checkProject.setString(1, name);
+            checkProject.setInt(2, k.getId());
+            ResultSet rs = checkProject.executeQuery();
+            rs.next();
+            if (rs.wasNull()) {
+            	return false;
+            }
+        	
+            PreparedStatement insertProject;
             String insertString = "INSERT INTO Project (name, boss) "
                     + "VALUES (?, ?)";
-            c.setAutoCommit(false);
-            insertUser = c.prepareStatement(insertString);
-            insertUser.setString(1, name);
-            insertUser.setInt(2, k.getId());
-            n = insertUser.executeUpdate();
-            c.commit();
+            
+            insertProject = c.prepareStatement(insertString);
+            insertProject.setString(1, name);
+            insertProject.setInt(2, k.getId());
+            n = insertProject.executeUpdate();
+            
+            PreparedStatement getProject;
+            String insertString2 = "SELECT id from Project "
+                    + "WHERE name = ?  AND boss = ?";
+            
+            getProject = c.prepareStatement(insertString2);
+            getProject.setString(1, name);
+            getProject.setInt(2, k.getId());
+            ResultSet r = getProject.executeQuery();
+            r.next();
+            int p =  r.getInt("id");
+            Projekti pr = new Projekti(p, name, k.getNayttonimi());
+            k.lisaaPomona(pr);
         } 
         if(n == 1) {
             return true;
