@@ -174,7 +174,7 @@ public class DatabaseHandler {
             c.commit();
         
         while(rs.next()) {
-	        String pid= rs.getString("id");
+	        int pid= rs.getInt("id");
 	        String username = rs.getString("user_id");
 	        username = getNickname(username, c);
 	        String sdate = rs.getString("startingTime");
@@ -221,7 +221,7 @@ public class DatabaseHandler {
             c.commit();
 			
         while(rs.next()) {
-	        String pid= rs.getString("id");
+	        int pid= rs.getInt("id");
 	        String username = rs.getString("user_id");
 	        String sdate = rs.getString("startingTime");
 	        String edate = rs.getString("endTime");
