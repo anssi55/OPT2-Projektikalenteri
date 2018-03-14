@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -31,10 +32,33 @@ public class FXMLController implements Initializable {
     private TextField emailField;
     @FXML
     private TextField displayNameField;
+    @FXML
+    private GridPane monthPane;
+    @FXML
+    private Text tekstikentta;
+    
+
+    private void fillMonthPane() throws IOException {
+    	System.out.println("asd2" + monthPane);
+    	
+    	Text text = new Text("Testimmm");
+    	monthPane.setColumnIndex(text, 0);
+    	monthPane.setRowIndex(text, 1);
+    	monthPane.getChildren().addAll(text);
+    	System.out.println(monthPane);
+    }
+    
+    @FXML
+    private void handlePreviousMonthButton(ActionEvent event) throws IOException {
+    	fillMonthPane();
+    	
+    	//tekstikentta.setText("testi");
+    }
     
     // Kirjautumispainikkeen toiminnot
+    
     @FXML
-    private void handleLoginButtonAction(ActionEvent event) {
+    private void handleLoginButtonAction(ActionEvent event) throws IOException {
         System.out.println("Painoit kirjaudu-painiketta!");
         
         if (usernameTextfield.getText().trim().isEmpty()) {
@@ -47,15 +71,30 @@ public class FXMLController implements Initializable {
             try{
                 String user = usernameTextfield.getText();
                 String passwd = passwordField.getText();
-                Kayttaja addUser = handler.loadUser(user, passwd);
+                if (handler.loadUser(user, passwd) != null) {
+                	
+//                    Node node = (Node) event.getSource();
+//                    Stage stage = (Stage) node.getScene().getWindow();
+//                    Parent root = FXMLLoader.load(getClass().getResource("/fxml/CalendarScene.fxml"));
+//                    Scene scene = new Scene(root);
+//                    //fillMonthPane();
+//                    //scene.getStylesheets().addAll("/styles/Styles.css", "/styles/LoginStyles.css");
+//                    stage.setTitle("Projektikalenteri - Kalenteri");
+//                    stage.setScene(scene);
+//                    stage.show();
+//                    
+                    moveToCalendar();
+                    
+                }
 
             } catch (SQLException ex) {
                 System.out.println("Kirjautuminen epäonnistui");
                 ex.printStackTrace();
                 
             }
+           
         }
-        
+       
     }
     
     // Rekisteröimispainikkeen toiminnot
@@ -114,6 +153,20 @@ public class FXMLController implements Initializable {
         stage.setTitle("Projektikalenteri - Rekisteröityminen");
         stage.setScene(scene);
         stage.show();        
+        
+    }
+    
+    //Siirtyminen kalenterinäkymään
+    private void moveToCalendar() throws IOException {
+    	
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/CalendarScene.fxml"));
+        Scene scene = new Scene(root);
+        //fillMonthPane();
+        //scene.getStylesheets().addAll("/styles/Styles.css", "/styles/LoginStyles.css");
+        stage.setTitle("Projektikalenteri - Kalenteri");
+        stage.setScene(scene);
+        stage.show();
         
     }
     
