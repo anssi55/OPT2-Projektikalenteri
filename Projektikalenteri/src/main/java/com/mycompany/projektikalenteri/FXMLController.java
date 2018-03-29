@@ -1,5 +1,7 @@
 package com.mycompany.projektikalenteri;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -19,7 +21,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class FXMLController implements Initializable {
-    DatabaseHandler handler = new DatabaseHandler();
+    private DatabaseHandler handler = new DatabaseHandler();
+    private Kayttaja kayttaja;
     @FXML
     private Text promptText;
     @FXML
@@ -36,6 +39,8 @@ public class FXMLController implements Initializable {
     private GridPane monthPane;
     @FXML
     private Text tekstikentta;
+    
+    
     
 
     private void fillMonthPane() throws IOException {
@@ -71,7 +76,8 @@ public class FXMLController implements Initializable {
             try{
                 String user = usernameTextfield.getText();
                 String passwd = passwordField.getText();
-                if (handler.loadUser(user, passwd) != null) {
+                kayttaja = handler.loadUser(user, passwd);
+                if (kayttaja != null) {
                 	
 //                    Node node = (Node) event.getSource();
 //                    Stage stage = (Stage) node.getScene().getWindow();
@@ -169,9 +175,13 @@ public class FXMLController implements Initializable {
         stage.show();
         
     }
+    private void addEntry(ActionEvent event) {
+    	EntryScreenController e = new EntryScreenController(handler);
+    }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
+    
 }

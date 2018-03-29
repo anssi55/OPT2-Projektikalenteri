@@ -6,27 +6,28 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="352.0" prefWidth="484.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.projektikalenteri.FXMLController">
+<AnchorPane id="EntryPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="352.0" prefWidth="484.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.projektikalenteri.FXMLController">
    <children>
-      <ChoiceBox layoutX="33.0" layoutY="70.0" prefHeight="26.0" prefWidth="199.0" />
-      <Button layoutX="307.0" layoutY="233.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="106.0" text="Hyväksy" textFill="#12ca15" />
-      <TextArea layoutX="33.0" layoutY="151.0" prefHeight="163.0" prefWidth="199.0" />
-      <Label layoutX="38.0" layoutY="15.0" prefHeight="41.0" prefWidth="190.0" text="%key.unspecified" />
-      <Button layoutX="330.0" layoutY="301.0" mnemonicParsing="false" text="Peruuta" textFill="#dd0d0d" />
+      <ChoiceBox fx:id="entryChoice" layoutX="33.0" layoutY="70.0" prefHeight="26.0" prefWidth="199.0" />
+      <Button fx:id="acceptButton" layoutX="307.0" layoutY="233.0" mnemonicParsing="false" onAction="#addEntry" prefHeight="56.0" prefWidth="106.0" text="Hyväksy" textFill="#12ca15" />
+      <TextArea fx:id="messageField" layoutX="33.0" layoutY="151.0" prefHeight="163.0" prefWidth="199.0" />
+      <Label fx:id="choiceLabel" layoutX="38.0" layoutY="15.0" prefHeight="41.0" prefWidth="190.0" text="%key.unspecified" />
+      <Button fx:id="denyButton" layoutX="330.0" layoutY="301.0" mnemonicParsing="false" onAction="#close" text="Peruuta" textFill="#dd0d0d" />
       <AnchorPane layoutX="242.0" layoutY="14.0" prefHeight="199.0" prefWidth="206.0" style="-fx-border-style: dashed; -fx-border-color: lightgray;">
          <children>
-            <ChoiceBox layoutX="145.0" layoutY="18.0" prefHeight="26.0" prefWidth="37.0" />
-            <ChoiceBox layoutX="145.0" layoutY="116.0" prefHeight="26.0" prefWidth="37.0" />
-            <ChoiceBox layoutX="107.0" layoutY="18.0" prefHeight="26.0" prefWidth="37.0" />
+            <ChoiceBox fx:id="startMinute" layoutX="145.0" layoutY="18.0" prefHeight="26.0" prefWidth="37.0" />
+            <ChoiceBox fx:id="endMinute" layoutX="145.0" layoutY="116.0" prefHeight="26.0" prefWidth="37.0" />
+            <ChoiceBox fx:id="startHour" layoutX="107.0" layoutY="18.0" prefHeight="26.0" prefWidth="37.0" />
             <DatePicker fx:id="startDate" layoutX="12.0" layoutY="62.0" prefHeight="26.0" prefWidth="171.0" />
-            <Label layoutX="14.0" layoutY="22.0" text="Label" />
-            <ChoiceBox layoutX="107.0" layoutY="116.0" prefHeight="26.0" prefWidth="37.0" />
+            <Label fx:id="startLabel" layoutX="14.0" layoutY="22.0" text="Label" />
+            <ChoiceBox fx:id="endHour" layoutX="107.0" layoutY="116.0" prefHeight="26.0" prefWidth="37.0" />
             <DatePicker fx:id="endDate" layoutX="12.0" layoutY="161.0" prefHeight="26.0" prefWidth="171.0" />
-            <Label layoutX="14.0" layoutY="120.0" text="Label" />
+            <Label fx:id="endLabel" layoutX="14.0" layoutY="120.0" text="Label" />
          </children>
       </AnchorPane>
-      <Label layoutX="38.0" layoutY="128.0" text="Label" />
+      <Label fx:id="messageLabel" layoutX="38.0" layoutY="128.0" text="Label" />
+      <Text fx:id="errorText" layoutX="38.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="199.20000237971544" />
    </children>
 </AnchorPane>

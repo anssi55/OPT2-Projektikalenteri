@@ -15,7 +15,7 @@
    <left>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="addProject" contentDisplay="CENTER" mnemonicParsing="false" text="Lisää projekti" />
+            <Button fx:id="addProject" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addEntry" text="Lisää projekti" />
             <Button fx:id="addEntry" mnemonicParsing="false" text="Lisää merkintä" />
             <Button fx:id="weeklyView" mnemonicParsing="false" text="Viikkonäkymä" />
             <Button fx:id="monthlyView" mnemonicParsing="false" text="Kuukausinäkymä" />
