@@ -1,5 +1,8 @@
 package com.mycompany.projektikalenteri;
+
 import java.sql.*;
+import javafx.scene.text.Text;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -189,7 +192,7 @@ public class DatabaseHandler {
             
         return false;
     }
-    public Kayttaja loadUser(String username, String passw) throws SQLException {
+    public Kayttaja loadUser(String username, String passw, Text t) throws SQLException {
     	Connection c;
     	ResultSet rs;
         
@@ -200,22 +203,27 @@ public class DatabaseHandler {
         insertUser = c.prepareStatement(insertString);
         insertUser.setString(1, username);
         rs = insertUser.executeQuery();
-        rs.next();
+        if(rs.next()) {
+        
         
 
-        int id= rs.getInt("id");
-        String dname = rs.getString("displayName");
-        String email = rs.getString("email");
-        String password = rs.getString("password");
-        if(!password.equals(passw)) {
-        	System.out.println("Väärä salasana");
-        	return null;
+		    int id= rs.getInt("id");
+		    String dname = rs.getString("displayName");
+		    String email = rs.getString("email");
+		    String password = rs.getString("password");
+		    if(!password.equals(passw)) {
+		    	System.out.println("Väärä salasana");
+		    	return null;
+		    }
+		    System.out.println("Salasana oikein");
+		    Kayttaja k = new Kayttaja(id, email, dname);
+		    loadProjects(k, id, c);
+		    return k;
+        } else {
+        	t.setText("Käyttäjää ei löytynyt!");
+        	t.setFill(Color.RED);
         }
-        System.out.println("Salasana oikein");
-        Kayttaja k = new Kayttaja(id, email, dname);
-        loadProjects(k, id, c);
-
-		return k;
+		return null;
     	
     }
     public void loadProjects(Kayttaja k, int id, Connection c) throws SQLException {

@@ -1,5 +1,6 @@
 package com.mycompany.projektikalenteri;
 
+import java.awt.Dialog.ModalityType;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -39,6 +40,8 @@ public class FXMLController implements Initializable {
     private GridPane monthPane;
     @FXML
     private Text tekstikentta;
+    @FXML
+    private Text promptLoginText;
     
     
     
@@ -76,7 +79,7 @@ public class FXMLController implements Initializable {
             try{
                 String user = usernameTextfield.getText();
                 String passwd = passwordField.getText();
-                kayttaja = handler.loadUser(user, passwd);
+                kayttaja = handler.loadUser(user, passwd, promptLoginText);
                 if (kayttaja != null) {
                 	
 //                    Node node = (Node) event.getSource();
@@ -175,8 +178,35 @@ public class FXMLController implements Initializable {
         stage.show();
         
     }
+    @FXML
     private void addEntry(ActionEvent event) {
-    	EntryScreenController e = new EntryScreenController(handler);
+    	final Stage dialog = new Stage();
+        Parent root;
+		try {
+			root = FXMLLoader.load(getClass().getResource("/fxml/CreateEntryScene.fxml"));
+			Scene scene = new Scene(root);
+			dialog.setScene(scene);
+			dialog.show();
+		
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        
+    }
+    @FXML
+    private void addProject(ActionEvent event) {
+    	final Stage dialog = new Stage();
+        Parent root;
+		try {
+			root = FXMLLoader.load(getClass().getResource("/fxml/CreateProjectScene.fxml"));
+			Scene scene = new Scene(root);
+			dialog.setScene(scene);
+			dialog.show();
+		
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        
     }
     
     @Override

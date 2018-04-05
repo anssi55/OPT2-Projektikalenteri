@@ -15,7 +15,7 @@ import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.fxml.Initializable;
 
-public class EntryScreenController implements Initializable{
+public class EntryScreenController{
 	private DatabaseHandler handler;
 	@FXML
 	private ChoiceBox startHour;
@@ -42,9 +42,6 @@ public class EntryScreenController implements Initializable{
 	@FXML
 	private Text errorText;
 	
-	public EntryScreenController(DatabaseHandler handler) {
-		this.handler = handler;
-	}
 	public void addEntry(ActionEvent event) {
 		if(messageField.getText().isEmpty()) {
 			messageField.setStyle("-fx-border-color: red");
@@ -70,10 +67,6 @@ public class EntryScreenController implements Initializable{
 		
 	}
 
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	
 }
