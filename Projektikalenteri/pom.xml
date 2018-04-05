@@ -7,7 +7,12 @@
     <packaging>jar</packaging>
 
     <name>Projektikalenteri</name>
-
+<dependency>
+	<groupId>junit</groupId>
+	<artifactId>junit</artifactId>
+	<version>4.11</version>
+	<scope>test</scope>
+</dependency>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <mainClass>com.mycompany.projektikalenteri.MainApp</mainClass>
@@ -17,12 +22,7 @@
         <!-- Used as the 'Vendor' for JNLP generation -->
         <name>Meidän poppoo</name>
     </organization>
-<dependency>
-<groupId>junit</groupId>
-<artifactId>junit</artifactId>
-<version>4.11</version>
-<scope>test</scope>
-</dependency>
+
     <build>
         <plugins>
             <plugin>
