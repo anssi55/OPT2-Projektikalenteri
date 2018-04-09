@@ -2,7 +2,8 @@ package com.mycompany.projektikalenteri;
 import java.awt.Color;
 import java.net.URL;
 import java.util.ResourceBundle;
-
+import javafx.fxml.*;
+import javafx.fxml.FXMLLoader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
@@ -14,8 +15,31 @@ import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.fxml.Initializable;
+import javafx.stage.StageStyle;
+import javafx.stage.Modality;
+import java.awt.Dialog.ModalityType;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import javafx.scene.layout.AnchorPane;
 
-public class EntryScreenController{
+
+public class EntryScreenController {
 	private DatabaseHandler handler;
 	@FXML
 	private ChoiceBox startHour;
@@ -42,6 +66,7 @@ public class EntryScreenController{
 	@FXML
 	private Text errorText;
 	
+	@FXML
 	public void addEntry(ActionEvent event) {
 		if(messageField.getText().isEmpty()) {
 			messageField.setStyle("-fx-border-color: red");
@@ -63,9 +88,13 @@ public class EntryScreenController{
 			errorText.setStyle("-fx-text-color: red");
 		}
 	}
-	public void loadEntryScreen() {
+	@FXML 
+	void close(ActionEvent event) {
 		
 	}
+	
+	
+	
 
 	
 	

@@ -1,5 +1,6 @@
 package com.mycompany.projektikalenteri;
-
+import javafx.stage.StageStyle;
+import javafx.stage.Modality;
 import java.awt.Dialog.ModalityType;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -180,11 +181,13 @@ public class FXMLController implements Initializable {
     }
     @FXML
     private void addEntry(ActionEvent event) {
+    	EntryScreenController c = new EntryScreenController();
     	final Stage dialog = new Stage();
         Parent root;
 		try {
 			root = FXMLLoader.load(getClass().getResource("/fxml/CreateEntryScene.fxml"));
-			Scene scene = new Scene(root);
+			Scene scene = new Scene(root, 200, 200);
+			
 			dialog.setScene(scene);
 			dialog.show();
 		
