@@ -1,9 +1,4 @@
 package com.mycompany.projektikalenteri;
-import javafx.stage.StageStyle;
-import javafx.stage.Modality;
-import java.awt.Dialog.ModalityType;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -15,13 +10,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.scene.layout.AnchorPane;
 
 public class FXMLController implements Initializable {
     private DatabaseHandler handler = new DatabaseHandler();
@@ -52,8 +45,8 @@ public class FXMLController implements Initializable {
     	System.out.println("asd2" + monthPane);
     	
     	Text text = new Text("Testimmm");
-    	monthPane.setColumnIndex(text, 0);
-    	monthPane.setRowIndex(text, 1);
+    	GridPane.setColumnIndex(text, 0);
+    	GridPane.setRowIndex(text, 1);
     	monthPane.getChildren().addAll(text);
     	System.out.println(monthPane);
     }
@@ -94,7 +87,7 @@ public class FXMLController implements Initializable {
 //                    stage.setScene(scene);
 //                    stage.show();
 //                    
-                    moveToCalendar();
+                    moveToCalendar(event);
                     
                 }
 
@@ -168,15 +161,17 @@ public class FXMLController implements Initializable {
     }
     
     //Siirtyminen kalenterinäkymään
-    private void moveToCalendar() throws IOException {
+    private void moveToCalendar(ActionEvent event) throws IOException {
     	
-        Stage stage = new Stage();
+    	Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/CalendarScene.fxml"));
         Scene scene = new Scene(root);
         //fillMonthPane();
         //scene.getStylesheets().addAll("/styles/Styles.css", "/styles/LoginStyles.css");
         stage.setTitle("Projektikalenteri - Kalenteri");
         stage.setScene(scene);
+        
         stage.show();
         
     }
@@ -185,10 +180,11 @@ public class FXMLController implements Initializable {
     	EntryScreenController c = new EntryScreenController();
     	final Stage dialog = new Stage();
         
+        
 		try {
-			Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("/fxml/CreateEntryScene.fxml"));
-			Scene scene = new Scene(root);
+			Parent root = FXMLLoader.load(getClass().getResource("/fxml/CreateEntryScene.fxml"));
 			
+			Scene scene = new Scene(root);  
 			dialog.setScene(scene);
 			dialog.show();
 		

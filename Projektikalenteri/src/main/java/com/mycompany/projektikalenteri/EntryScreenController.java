@@ -90,6 +90,9 @@ public class EntryScreenController {
 	}
 	@FXML 
 	void close(ActionEvent event) {
+		Node node = (Node) event.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+	    stage.close();
 		
 	}
 	
