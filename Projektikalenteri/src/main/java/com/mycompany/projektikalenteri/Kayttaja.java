@@ -28,7 +28,7 @@ public class Kayttaja {
     	this.nayttonimi = nayttonimi;
     	pomona = new ArrayList<Projekti>();
     	tekijana = new ArrayList<Projekti>();
-    	
+    	this.merkinnat = new ArrayList<Kalenterimerkinta>();
     	
     }
 
@@ -81,7 +81,17 @@ public class Kayttaja {
     	this.merkinnat.add(lista);
     }
     
-    
+    public List<Projekti> getPomona() {
+        return this.pomona;
+    }
+            
+    public List<Projekti> getTekijana() {
+        return this.tekijana;
+    }
+
+    public List<Kalenterimerkinta> getMerkinnat() {
+        return this.merkinnat;
+    }  
             
     
 
