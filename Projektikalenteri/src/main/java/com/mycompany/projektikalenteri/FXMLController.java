@@ -21,6 +21,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.layout.AnchorPane;
 
 public class FXMLController implements Initializable {
     private DatabaseHandler handler = new DatabaseHandler();
@@ -183,10 +184,10 @@ public class FXMLController implements Initializable {
     private void addEntry(ActionEvent event) {
     	EntryScreenController c = new EntryScreenController();
     	final Stage dialog = new Stage();
-        Parent root;
+        
 		try {
-			root = FXMLLoader.load(getClass().getResource("/fxml/CreateEntryScene.fxml"));
-			Scene scene = new Scene(root, 200, 200);
+			Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("/fxml/CreateEntryScene.fxml"));
+			Scene scene = new Scene(root);
 			
 			dialog.setScene(scene);
 			dialog.show();
