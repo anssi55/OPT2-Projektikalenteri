@@ -81,7 +81,7 @@ public class Kalenteri {
 				return "December";
 				
 		} 
-		return "asdf";
+		return "";
 	}
 
 	public void setMonthToNext() {
@@ -89,6 +89,9 @@ public class Kalenteri {
 	}
 	public void setMonthToPrevious() {
 		calendar.add(calendar.MONTH, -1);
+	}
+	public int getYear() {
+		return calendar.get(calendar.YEAR);
 	}
 }
 
