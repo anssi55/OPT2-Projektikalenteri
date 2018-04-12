@@ -44,17 +44,7 @@ public class FXMLController implements Initializable {
     
     
 
-<<<<<<< HEAD
-    private void fillMonthPane() throws IOException {
-    	System.out.println("asd2" + monthPane);
-    	
-    	Text text = new Text("Testimmm");
-    	GridPane.setColumnIndex(text, 0);
-    	GridPane.setRowIndex(text, 1);
-    	monthPane.getChildren().addAll(text);
-    	System.out.println(monthPane);
-=======
-    @SuppressWarnings("static-access")
+
 	private void fillMonthPane() throws IOException {
     	monthName.setText(kalenteri.getMonthName());
     	monthPane.getChildren().clear();
@@ -74,7 +64,7 @@ public class FXMLController implements Initializable {
 		    	monthPane.getChildren().addAll(text);
 	    		}
     	}
->>>>>>> branch 'development' of https://github.com/anssi55/Projektikalenteri.git
+
     }
     
     @FXML
