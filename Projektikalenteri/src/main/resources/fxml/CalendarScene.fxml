@@ -25,7 +25,7 @@
    <center>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Kuukausi" textAlignment="CENTER">
+            <Text fx:id="monthName" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
                <font>
                   <Font size="40.0" />
                </font>
@@ -102,14 +102,11 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="TOP" vgrow="SOMETIMES" />
               </rowConstraints>
-               <children>
-                  <Text fx:id="tekstikentta" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-               </children>
             </GridPane>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="400.0">
                <children>
                   <Button fx:id="previousMonth" mnemonicParsing="false" onAction="#handlePreviousMonthButton" text="Edellinen kuukausi" />
-                  <Button fx:id="nextMonth" mnemonicParsing="false" text="Seuraava kuukausi" />
+                  <Button fx:id="nextMonth" mnemonicParsing="false" onAction="#handleNextMonthButton" text="Seuraava kuukausi" />
                </children>
             </HBox>
          </children>
