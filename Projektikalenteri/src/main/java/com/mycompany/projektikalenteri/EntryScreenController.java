@@ -1,6 +1,7 @@
 package com.mycompany.projektikalenteri;
 import java.awt.Color;
 import java.net.URL;
+import java.util.Calendar;
 import java.util.ResourceBundle;
 import javafx.fxml.*;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +23,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -37,6 +40,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.layout.AnchorPane;
+import javax.swing.JPopupMenu.Separator;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 
 public class EntryScreenController {
@@ -65,6 +71,48 @@ public class EntryScreenController {
 	private TextArea messageField;
 	@FXML
 	private Text errorText;
+	@FXML
+	public void initialize() {
+		DateFormat dateFormat = new SimpleDateFormat("hh:mm");
+        Calendar cal = Calendar.getInstance();
+
+        
+        int minute = cal.get(Calendar.MINUTE);
+        int hour = cal.get(Calendar.HOUR);
+		
+		
+		ObservableList<String> hours = FXCollections.observableArrayList();
+		for (int i = 0; i < 24;i++) {
+			if (i < 10) {
+				hours.add("0" +i);
+			} else {
+				hours.add("" +i);
+			}
+		}
+		
+		startHour.setItems(hours);
+		endHour.setItems(hours);
+		startHour.getSelectionModel().select(hour);
+		endHour.getSelectionModel().select(hour);
+		
+		ObservableList<String> minutes = FXCollections.observableArrayList();
+		for (int i = 0; i < 60;i++) {
+			if (i < 10) {
+				minutes.add("0" +i);
+			} else {
+				minutes.add("" +i);
+			}
+		}
+		startMinute.setItems(minutes);
+		endMinute.setItems(minutes);
+		startMinute.getSelectionModel().select(minute);
+		endMinute.getSelectionModel().select(minute);
+
+		entryChoice.setItems(FXCollections.observableArrayList(
+				"Henkilökohtainen", "Projekti") );
+		
+		
+	}
 	
 	@FXML
 	public void addEntry(ActionEvent event) {

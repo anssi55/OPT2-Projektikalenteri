@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 public class FXMLController implements Initializable {
     private DatabaseHandler handler = new DatabaseHandler();
     private Kayttaja kayttaja;
+    private Kalenteri kalenteri;
     @FXML
     private Text promptText;
     @FXML
@@ -37,10 +38,13 @@ public class FXMLController implements Initializable {
     private Text tekstikentta;
     @FXML
     private Text promptLoginText;
+    @FXML
+    private Text monthName;
     
     
     
 
+<<<<<<< HEAD
     private void fillMonthPane() throws IOException {
     	System.out.println("asd2" + monthPane);
     	
@@ -49,13 +53,39 @@ public class FXMLController implements Initializable {
     	GridPane.setRowIndex(text, 1);
     	monthPane.getChildren().addAll(text);
     	System.out.println(monthPane);
+=======
+    @SuppressWarnings("static-access")
+	private void fillMonthPane() throws IOException {
+    	monthName.setText(kalenteri.getMonthName());
+    	monthPane.getChildren().clear();
+    	monthPane.setGridLinesVisible(true);
+    	int day = 1;
+    	//System.out.println("asd2" + monthPane);
+    	int firstDay = kalenteri.getFirstDayOfMonth();
+    	for (int i = 0; i <= 5; i++) {
+    		for (int j = 0; j < 7; j++){
+    			if (i == 0 && j==0) j = (j+firstDay);
+	    		if (day ==kalenteri.getMaxDaysInMonth()) return;
+		    	Text text = new Text(Integer.toString(day));
+		    	day++;
+		    	
+		    	monthPane.setColumnIndex(text, j);
+		    	monthPane.setRowIndex(text, i);
+		    	monthPane.getChildren().addAll(text);
+	    		}
+    	}
+>>>>>>> branch 'development' of https://github.com/anssi55/Projektikalenteri.git
     }
     
     @FXML
     private void handlePreviousMonthButton(ActionEvent event) throws IOException {
+    	kalenteri.setMonthToPrevious();
     	fillMonthPane();
-    	
-    	//tekstikentta.setText("testi");
+    }
+    @FXML
+    private void handleNextMonthButton(ActionEvent event) throws IOException {
+    	kalenteri.setMonthToNext();
+    	fillMonthPane();
     }
     
     // Kirjautumispainikkeen toiminnot
@@ -173,6 +203,7 @@ public class FXMLController implements Initializable {
         stage.setScene(scene);
         
         stage.show();
+
         
     }
     @FXML
@@ -212,6 +243,7 @@ public class FXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+    	kalenteri = new Kalenteri();
     }
     
 }

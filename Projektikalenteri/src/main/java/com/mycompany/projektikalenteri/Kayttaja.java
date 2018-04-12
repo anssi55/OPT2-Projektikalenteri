@@ -1,6 +1,7 @@
 package com.mycompany.projektikalenteri;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Miika on 7.2.2018.
@@ -28,7 +29,7 @@ public class Kayttaja {
     	this.nayttonimi = nayttonimi;
     	pomona = new ArrayList<Projekti>();
     	tekijana = new ArrayList<Projekti>();
-    	
+    	this.merkinnat = new ArrayList<Kalenterimerkinta>();
     	
     }
 
@@ -81,7 +82,17 @@ public class Kayttaja {
     	this.merkinnat.add(lista);
     }
     
-    
+    public List<Projekti> getPomona() {
+        return this.pomona;
+    }
+            
+    public List<Projekti> getTekijana() {
+        return this.tekijana;
+    }
+
+    public List<Kalenterimerkinta> getMerkinnat() {
+        return this.merkinnat;
+    }  
             
     
 
