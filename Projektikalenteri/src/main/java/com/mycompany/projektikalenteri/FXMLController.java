@@ -48,11 +48,10 @@ public class FXMLController implements Initializable {
 
 
 	private void fillMonthPane() throws IOException {
-    	monthName.setText(kalenteri.getMonthName());
+    	monthName.setText(kalenteri.getMonthName()+"   "+kalenteri.getYear());
     	monthPane.getChildren().clear();
     	monthPane.setGridLinesVisible(true);
     	int day = 1;
-    	//System.out.println("asd2" + monthPane);
     	int firstDay = kalenteri.getFirstDayOfMonth();
     	for (int i = 0; i <= 5; i++) {
     		for (int j = 0; j < 7; j++){
