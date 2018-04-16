@@ -3,6 +3,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.ResourceBundle;
 
 
 
@@ -11,12 +12,14 @@ public class Kalenteri {
 	int year, month, day, dayOfWeek, dayOfMonth, weekOfYear, weekOfMonth;
 	SimpleDateFormat sdf;
 	Calendar calendar;
+	ResourceBundle messages;
 	
 	
 
 
 
-	public Kalenteri() {
+	public Kalenteri(ResourceBundle messages) {
+		this.messages = messages;
 		sdf = new SimpleDateFormat("yyyy M dd HH:mm:ss");	
 		calendar = new GregorianCalendar();
 		year       = calendar.get(Calendar.YEAR);
@@ -56,29 +59,29 @@ public class Kalenteri {
 	public String getMonthName() {
 		switch(calendar.get(calendar.MONTH)) {
 			case 0 :
-				return "January";
+				return messages.getString("january");
 			case 1 :
-				return "February";
+				return messages.getString("february");
 			case 2 :
-				return "March";
+				return messages.getString("march");
 			case 3 :
-				return "April";
+				return messages.getString("april");
 			case 4 :
-				return "May";
+				return messages.getString("may");
 			case 5 :
-				return "June";
+				return messages.getString("june");
 			case 6 :
-				return "July";
+				return messages.getString("july");
 			case 7 :
-				return "August";
+				return messages.getString("august");
 			case 8 :
-				return "September";
+				return messages.getString("september");
 			case 9 :
-				return "October";
+				return messages.getString("october");
 			case 10 :
-				return "November";
+				return messages.getString("november");
 			case 11 :
-				return "December";
+				return messages.getString("december");
 				
 		} 
 		return "asdf";

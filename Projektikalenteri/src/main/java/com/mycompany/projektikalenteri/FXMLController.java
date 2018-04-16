@@ -15,13 +15,15 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import java.util.Locale;
 
 public class FXMLController implements Initializable {
+	ResourceBundle messages;
     private DatabaseHandler handler = new DatabaseHandler();
     private Kayttaja kayttaja;
     private Kalenteri kalenteri;
     @FXML
-    private Text promptText;
+    private Text promptRegistrationText;
     @FXML
     private TextField usernameTextfield;
     @FXML
@@ -82,14 +84,14 @@ public class FXMLController implements Initializable {
     
     @FXML
     private void handleLoginButtonAction(ActionEvent event) throws IOException {
-        System.out.println("Painoit kirjaudu-painiketta!");
+        System.out.println("Painoit kirjaudu-painiketta!"); //$NON-NLS-1$
         
         if (usernameTextfield.getText().trim().isEmpty()) {
-            promptText.setText("Syötä käyttäjätunnus!");
+            promptLoginText.setText(messages.getString("FXMLController.insertUsername")); //$NON-NLS-1$
 //        } else if (passwordTextfield.getText().trim().isEmpty()) {
 //            promptText.setText("Syötä salasana!!");
         } else {
-            System.out.println("Yritetään kirjautua!");
+            System.out.println("Yritetään kirjautua!"); //$NON-NLS-1$
             
             try{
                 String user = usernameTextfield.getText();
@@ -112,7 +114,7 @@ public class FXMLController implements Initializable {
                 }
 
             } catch (SQLException ex) {
-                System.out.println("Kirjautuminen epäonnistui");
+                System.out.println("Kirjautuminen epäonnistui"); //$NON-NLS-1$
                 ex.printStackTrace();
                 
             }
@@ -124,9 +126,9 @@ public class FXMLController implements Initializable {
     // Rekisteröimispainikkeen toiminnot
     @FXML
     private void handleRegistrationButtonAction(ActionEvent event) {
-        System.out.println("Painoit rekisteröitymispainiketta!");
+        System.out.println("Painoit rekisteröitymispainiketta!"); //$NON-NLS-1$
         if (usernameTextfield.getText().trim().isEmpty()) {
-            promptText.setText("Syötä käyttäjätunnus!");
+            promptLoginText.setText(messages.getString("FXMLController.insertUsername")); //$NON-NLS-1$
 //        } else if (passwordTextfield.getText().trim().isEmpty()) {
 //            promptText.setText("Syötä salasana!!");
         } 
@@ -139,15 +141,15 @@ public class FXMLController implements Initializable {
 	            boolean userAdded = handler.addUser(user, passwd, email, displayName);
 	            
 	            if (userAdded) {
-	            	System.out.println("Rekisteröityminen onnistui!");
+	            	System.out.println("Rekisteröityminen onnistui!"); //$NON-NLS-1$
 	            }
 	
 	        } catch (SQLException ex) {
-	            System.out.println("Rekisteröityminen epäonnistui");
+	            System.out.println("Rekisteröityminen epäonnistui"); //$NON-NLS-1$
 	            ex.printStackTrace();
 	        }
         } else {
-        	System.out.println("Salasanat ei täsmää");
+        	System.out.println("Salasanat ei täsmää"); //$NON-NLS-1$
         }
         
         
@@ -158,10 +160,10 @@ public class FXMLController implements Initializable {
     private void handleRegistrationSceneButtonAction(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/LoginScene.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/LoginScene.fxml")); //$NON-NLS-1$
         Scene scene = new Scene(root);
-        scene.getStylesheets().addAll("/styles/Styles.css", "/styles/LoginStyles.css");
-        stage.setTitle("Projektikalenteri - Kirjautuminen");
+        scene.getStylesheets().addAll("/styles/Styles.css", "/styles/LoginStyles.css"); //$NON-NLS-1$ //$NON-NLS-2$
+        stage.setTitle(messages.getString("FXMLController.projectCalendar_login")); //$NON-NLS-1$
         stage.setScene(scene);
         stage.show();
     }
@@ -171,10 +173,10 @@ public class FXMLController implements Initializable {
     private void handleLoginSceneButtonAction(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/RegistrationScene.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/RegistrationScene.fxml")); //$NON-NLS-1$
         Scene scene = new Scene(root);        
-        scene.getStylesheets().addAll("/styles/Styles.css", "/styles/Registration.css");        
-        stage.setTitle("Projektikalenteri - Rekisteröityminen");
+        scene.getStylesheets().addAll("/styles/Styles.css", "/styles/Registration.css");         //$NON-NLS-1$ //$NON-NLS-2$
+        stage.setTitle(messages.getString("FXMLController.projectCalendar_register")); //$NON-NLS-1$
         stage.setScene(scene);
         stage.show();        
         
@@ -185,14 +187,15 @@ public class FXMLController implements Initializable {
     	
     	Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/CalendarScene.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/CalendarScene.fxml")); //$NON-NLS-1$
         Scene scene = new Scene(root);
         //fillMonthPane();
         //scene.getStylesheets().addAll("/styles/Styles.css", "/styles/LoginStyles.css");
-        stage.setTitle("Projektikalenteri - Kalenteri");
+        stage.setTitle("Projektikalenteri - Kalenteri"); //$NON-NLS-1$
         stage.setScene(scene);
         
         stage.show();
+        
 
         
     }
@@ -203,7 +206,7 @@ public class FXMLController implements Initializable {
         
         
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("/fxml/CreateEntryScene.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("/fxml/CreateEntryScene.fxml"), messages); //$NON-NLS-1$
 			
 			Scene scene = new Scene(root);  
 			dialog.setScene(scene);
@@ -219,7 +222,7 @@ public class FXMLController implements Initializable {
     	final Stage dialog = new Stage();
         Parent root;
 		try {
-			root = FXMLLoader.load(getClass().getResource("/fxml/CreateProjectScene.fxml"));
+			root = FXMLLoader.load(getClass().getResource("/fxml/CreateProjectScene.fxml")); //$NON-NLS-1$
 			Scene scene = new Scene(root);
 			dialog.setScene(scene);
 			dialog.show();
@@ -233,7 +236,12 @@ public class FXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    	kalenteri = new Kalenteri();
+    	
+    	Locale currentLocale = new Locale("ar","AE");
+    	messages = ResourceBundle.getBundle("com.mycompany.projektikalenteri.MessagesBundle",currentLocale);
+    	kalenteri = new Kalenteri(messages);
+    	
+    	
     }
     
 }

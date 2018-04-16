@@ -27,7 +27,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -39,7 +38,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.scene.layout.AnchorPane;
 import javax.swing.JPopupMenu.Separator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -72,21 +70,27 @@ public class EntryScreenController {
 	@FXML
 	private Text errorText;
 	@FXML
+	private ResourceBundle resources;
+	
+	
+	
+	@FXML
 	public void initialize() {
-		DateFormat dateFormat = new SimpleDateFormat("hh:mm");
+		DateFormat dateFormat = new SimpleDateFormat("hh:mm"); //$NON-NLS-1$
         Calendar cal = Calendar.getInstance();
+        
 
         
         int minute = cal.get(Calendar.MINUTE);
-        int hour = cal.get(Calendar.HOUR);
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
 		
 		
 		ObservableList<String> hours = FXCollections.observableArrayList();
 		for (int i = 0; i < 24;i++) {
 			if (i < 10) {
-				hours.add("0" +i);
+				hours.add("0" +i); //$NON-NLS-1$
 			} else {
-				hours.add("" +i);
+				hours.add("" +i); //$NON-NLS-1$
 			}
 		}
 		
@@ -98,9 +102,9 @@ public class EntryScreenController {
 		ObservableList<String> minutes = FXCollections.observableArrayList();
 		for (int i = 0; i < 60;i++) {
 			if (i < 10) {
-				minutes.add("0" +i);
+				minutes.add("0" +i); //$NON-NLS-1$
 			} else {
-				minutes.add("" +i);
+				minutes.add("" +i); //$NON-NLS-1$
 			}
 		}
 		startMinute.setItems(minutes);
@@ -109,7 +113,9 @@ public class EntryScreenController {
 		endMinute.getSelectionModel().select(minute);
 
 		entryChoice.setItems(FXCollections.observableArrayList(
-				"Henkilökohtainen", "Projekti") );
+				resources.getString("EntryScreenController.personal"), "Projekti") );   //$NON-NLS-1$//$NON-NLS-2$
+		
+		entryChoice.getSelectionModel().select(0);
 		
 		
 	}
@@ -117,23 +123,23 @@ public class EntryScreenController {
 	@FXML
 	public void addEntry(ActionEvent event) {
 		if(messageField.getText().isEmpty()) {
-			messageField.setStyle("-fx-border-color: red");
-			errorText.setText("Merkintä on tyhjä!");
-			errorText.setStyle("-fx-text-color: red");
+			messageField.setStyle("-fx-border-color: red"); //$NON-NLS-1$
+			errorText.setText(resources.getString("EntryScreenController.entryIsEmpty")); //$NON-NLS-1$
+			errorText.setStyle("-fx-text-color: red"); //$NON-NLS-1$
 		}
 		if (endDate.getValue().compareTo(endDate.getValue()) == 1) {
-			endDate.setStyle("-fx-border-color: red");
-			errorText.setText("Loppuaika alkuaikaa ennen!");
-			errorText.setStyle("-fx-text-color: red");
+			endDate.setStyle("-fx-border-color: red"); //$NON-NLS-1$
+			errorText.setText(resources.getString("EntryScreenController.EndTimeb4StartTime")); //$NON-NLS-1$
+			errorText.setStyle("-fx-text-color: red"); //$NON-NLS-1$
 			
 		} else if (endHour.getValue().toString().compareTo(startHour.getValue().toString()) == 1) {
-			endHour.setStyle("-fx-border-color: red");
-			errorText.setText("Loppuaika alkuaikaa ennen!");
-			errorText.setStyle("-fx-text-color: red");
+			endHour.setStyle("-fx-border-color: red"); //$NON-NLS-1$
+			errorText.setText(resources.getString("EntryScreenController.EndTimeb4StartTime")); //$NON-NLS-1$
+			errorText.setStyle("-fx-text-color: red"); //$NON-NLS-1$
 		} else if(endMinute.getValue().toString().compareTo(startMinute.getValue().toString()) == 1 ) {
-			endMinute.setStyle("-fx-border-color: red");
-			errorText.setText("Loppuaika alkuaikaa ennen!");
-			errorText.setStyle("-fx-text-color: red");
+			endMinute.setStyle("-fx-border-color: red"); //$NON-NLS-1$
+			errorText.setText(resources.getString("EntryScreenController.EndTimeb4StartTime")); //$NON-NLS-1$
+			errorText.setStyle("-fx-text-color: red"); //$NON-NLS-1$
 		}
 	}
 	@FXML 
@@ -141,6 +147,7 @@ public class EntryScreenController {
 		Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
 	    stage.close();
+	    
 		
 	}
 	
