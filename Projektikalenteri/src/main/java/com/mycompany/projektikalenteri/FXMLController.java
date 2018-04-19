@@ -186,11 +186,12 @@ public class FXMLController implements Initializable {
     	
     	Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/CalendarScene.fxml")); //$NON-NLS-1$
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/CalendarScene.fxml"), messages); //$NON-NLS-1$
         Scene scene = new Scene(root);
         //fillMonthPane();
         //scene.getStylesheets().addAll("/styles/Styles.css", "/styles/LoginStyles.css");
         stage.setTitle("Projektikalenteri - Kalenteri"); //$NON-NLS-1$
+        
         stage.setScene(scene);
         
         stage.show();
@@ -209,6 +210,7 @@ public class FXMLController implements Initializable {
 			
 			Scene scene = new Scene(root);  
 			dialog.setScene(scene);
+			dialog.setTitle(messages.getString("addEntryTitle"));
 			dialog.show();
 		
 		} catch (IOException e) {
@@ -239,6 +241,7 @@ public class FXMLController implements Initializable {
     	Locale currentLocale = new Locale("ar","AE");
     	messages = ResourceBundle.getBundle("com.mycompany.projektikalenteri.MessagesBundle",currentLocale);
     	kalenteri = new Kalenteri(messages);
+    	Locale.setDefault(currentLocale);
     	
     	
     }

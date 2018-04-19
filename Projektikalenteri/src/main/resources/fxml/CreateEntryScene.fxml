@@ -15,14 +15,14 @@
       <TextArea fx:id="messageField" layoutX="33.0" layoutY="151.0" prefHeight="163.0" prefWidth="199.0" />
       <Label fx:id="choiceLabel" layoutX="38.0" layoutY="15.0" prefHeight="41.0" prefWidth="190.0" text="%chooseEntry" />
       <Button fx:id="denyButton" layoutX="330.0" layoutY="301.0" mnemonicParsing="false" onAction="#close" text="%cancel" textFill="#dd0d0d" />
-      <AnchorPane layoutX="242.0" layoutY="14.0" prefHeight="199.0" prefWidth="206.0" style="-fx-border-style: dashed; -fx-border-color: lightgray;">
+      <AnchorPane layoutX="242.0" layoutY="14.0" prefHeight="199.0" prefWidth="237.0" style="-fx-border-style: dashed; -fx-border-color: lightgray;">
          <children>
-            <ChoiceBox fx:id="startMinute" layoutX="145.0" layoutY="18.0" prefHeight="26.0" prefWidth="50.0" />
-            <ChoiceBox fx:id="endMinute" layoutX="145.0" layoutY="116.0" prefHeight="26.0" prefWidth="50.0" />
-            <ChoiceBox fx:id="startHour" layoutX="95.0" layoutY="18.0" prefHeight="26.0" prefWidth="50.0" />
+            <ChoiceBox fx:id="startMinute" layoutX="173.0" layoutY="18.0" prefHeight="26.0" prefWidth="50.0" />
+            <ChoiceBox fx:id="endMinute" layoutX="173.0" layoutY="116.0" prefHeight="26.0" prefWidth="50.0" />
+            <ChoiceBox fx:id="startHour" layoutX="120.0" layoutY="18.0" prefHeight="26.0" prefWidth="50.0" />
             <DatePicker fx:id="startDate" layoutX="12.0" layoutY="62.0" prefHeight="26.0" prefWidth="171.0" />
             <Label fx:id="startLabel" layoutX="14.0" layoutY="22.0" text="%chooseStart" />
-            <ChoiceBox fx:id="endHour" layoutX="95.0" layoutY="116.0" prefHeight="26.0" prefWidth="50.0" />
+            <ChoiceBox fx:id="endHour" layoutX="120.0" layoutY="115.0" prefHeight="26.0" prefWidth="50.0" />
             <DatePicker fx:id="endDate" layoutX="12.0" layoutY="161.0" prefHeight="26.0" prefWidth="171.0" />
             <Label fx:id="endLabel" layoutX="14.0" layoutY="120.0" text="%chooseEnd" />
          </children>

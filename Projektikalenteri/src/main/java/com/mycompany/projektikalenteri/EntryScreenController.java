@@ -44,6 +44,7 @@ import javafx.collections.ObservableList;
 
 
 public class EntryScreenController {
+	
 	private DatabaseHandler handler;
 	@FXML
 	private ChoiceBox startHour;
