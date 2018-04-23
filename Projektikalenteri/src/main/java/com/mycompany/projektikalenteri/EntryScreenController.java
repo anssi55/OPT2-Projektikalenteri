@@ -41,6 +41,7 @@ import javafx.stage.Stage;
 import javax.swing.JPopupMenu.Separator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.stage.Window;
 
 
 public class EntryScreenController {
@@ -141,16 +142,19 @@ public class EntryScreenController {
 			endMinute.setStyle("-fx-border-color: red"); //$NON-NLS-1$
 			errorText.setText(resources.getString("EntryScreenController.EndTimeb4StartTime")); //$NON-NLS-1$
 			errorText.setStyle("-fx-text-color: red"); //$NON-NLS-1$
+		} else {
+			close(event);
+			
 		}
 	}
 	@FXML 
 	void close(ActionEvent event) {
-		Node node = (Node) event.getSource();
-        Stage stage = (Stage) node.getScene().getWindow();
-	    stage.close();
-	    
-		
+		final Node source = (Node) event.getSource();
+	    final Stage stage = (Stage) source.getScene().getWindow();
+	    stage.close();	
 	}
+	
+	
 	
 	
 	

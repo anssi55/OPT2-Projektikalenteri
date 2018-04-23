@@ -84,9 +84,10 @@ public class CalendarController {
     	final Stage dialog = new Stage();
         Parent root;
 		try {
-			root = FXMLLoader.load(getClass().getResource("/fxml/CreateProjectScene.fxml")); //$NON-NLS-1$
+			root = FXMLLoader.load(getClass().getResource("/fxml/CreateProjectScene.fxml"), resources); 
 			Scene scene = new Scene(root);
 			dialog.setScene(scene);
+			dialog.setTitle(resources.getString("addProjectTitle"));
 			dialog.show();
 		
 		} catch (IOException e) {
