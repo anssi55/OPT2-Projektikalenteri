@@ -2,6 +2,10 @@ package com.mycompany.projektikalenteri;
 
 import javafx.application.Application;
 import static javafx.application.Application.launch;
+
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -13,7 +17,10 @@ public class MainApp extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent login = FXMLLoader.load(getClass().getResource("/fxml/LoginScene.fxml"));
+    	Locale currentLocale = new Locale("ar","AE");
+    	Locale.setDefault(currentLocale);
+    	ResourceBundle rb = ResourceBundle.getBundle("MessagesBundle",currentLocale);
+        Parent login = FXMLLoader.load(getClass().getResource("/fxml/LoginScene.fxml"), rb);
         
         Scene loginScene = new Scene(login);
         loginScene.getStylesheets().addAll("/styles/Styles.css", "/styles/LoginStyles.css");

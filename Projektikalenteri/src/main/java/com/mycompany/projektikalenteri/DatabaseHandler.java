@@ -1,6 +1,8 @@
 package com.mycompany.projektikalenteri;
 
 import java.sql.*;
+import java.util.ResourceBundle;
+
 import javafx.scene.text.Text;
 import javafx.scene.paint.Color;
 
@@ -9,19 +11,21 @@ import javafx.scene.paint.Color;
  * @author anssi
  */
 public class DatabaseHandler {
-	public DatabaseHandler() {
+	private ResourceBundle resources;
+	public DatabaseHandler(ResourceBundle resources) {
+		this.resources = resources;
 		try {
 		
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 	    } catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 			
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		
@@ -41,7 +45,7 @@ public class DatabaseHandler {
             System.out.println("VendorError: " + ex.getErrorCode());
             System.out.print("StackTrace: ");
             ex.printStackTrace();
-            System.exit(0);
+            
         }
         return null;
 }
@@ -196,7 +200,10 @@ public class DatabaseHandler {
     	Connection c;
     	ResultSet rs;
         
-    	c = connect();
+        c = connect();
+        if(c==null) {
+        	t.setText(resources.getString("noConnection"));
+        }
         PreparedStatement insertUser;
         String insertString = "SELECT * from User "
                 + "WHERE name = ?";

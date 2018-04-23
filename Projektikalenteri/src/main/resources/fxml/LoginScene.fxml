@@ -10,23 +10,39 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
-
+<?import javafx.collections.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
 <GridPane id="LoginPane" alignment="center" hgap="10" vgap="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9.0.1" fx:controller="com.mycompany.projektikalenteri.FXMLController">
     <padding><Insets bottom="25" left="25" right="25" top="25" /></padding>
 
-    <Button fx:id="loginSelectButton" onAction="#handleLoginSceneButtonAction" text="Rekisteröityminen" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+    <Button fx:id="loginSelectButton" onAction="#handleLoginSceneButtonAction" text="%registration" GridPane.columnIndex="1" GridPane.rowIndex="0" />
 
-    <Text fx:id="welcomeText" text="Tervetuloa" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+    <Text fx:id="welcomeText" text="%welcome" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="1" />
 
-    <Label fx:id="usernameLabel" minHeight="16" minWidth="69" text="Käyttäjätunnus" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+    <Label fx:id="usernameLabel" minHeight="16" minWidth="69" text="%username" GridPane.columnIndex="0" GridPane.rowIndex="2" />
     <TextField fx:id="usernameTextfield" minHeight="16" minWidth="69" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-    <Label fx:id="passwordLabel" minHeight="16" minWidth="69" text="Salasana" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+    <Label fx:id="passwordLabel" minHeight="16" minWidth="69" text="%password" GridPane.columnIndex="0" GridPane.rowIndex="3" />
     <PasswordField fx:id="passwordField" minHeight="16" minWidth="69" GridPane.columnIndex="1" GridPane.rowIndex="3" />        
 
-    <Button fx:id="LoginButton" onAction="#handleLoginButtonAction" text="Kirjaudu!" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-    <Text fx:id="promptLoginText" text="Syötä tiedot ja paina kirjaudu!" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-   <ChoiceBox prefHeight="26.0" prefWidth="57.0" />
+    <Button fx:id="LoginButton" onAction="#handleLoginButtonAction" text="%login" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+    <Text fx:id="promptLoginText" text="%insertCredentials" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+   	<ChoiceBox fx:id="langChoice" prefHeight="26.0" prefWidth="57.0">
+   		<items>
+            <FXCollections fx:factory="observableArrayList">
+                <Image url = "/images/fi.png"/>
+                <String fx:value="5 minutes" />
+                <String fx:value="15 minutes" />
+            </FXCollections>
+        </items>
+    </ChoiceBox>
    <columnConstraints>
       <ColumnConstraints />
       <ColumnConstraints />

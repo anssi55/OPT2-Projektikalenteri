@@ -11,26 +11,26 @@
 <GridPane id="LoginPane" xmlns:fx="http://javafx.com/fxml" fx:controller="com.mycompany.projektikalenteri.FXMLController"  alignment="center" hgap="10" vgap="10">
     <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
     
-    <Button GridPane.columnIndex="1" GridPane.rowIndex="0" text="Kirjautuminen" onAction="#handleRegistrationSceneButtonAction" fx:id="loginSelectButton" />
+    <Button GridPane.columnIndex="1" GridPane.rowIndex="0" text="%logging" onAction="#handleRegistrationSceneButtonAction" fx:id="loginSelectButton" />
 
-    <Text text="Rekisteröityminen" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2" fx:id="registrationText" />
+    <Text text="%registration" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2" fx:id="registrationText" />
 
-    <Label GridPane.columnIndex="0" GridPane.rowIndex="2" minHeight="16" minWidth="69" fx:id="usernameLabel" text="Käyttäjätunnus"/>
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="2" minHeight="16" minWidth="69" fx:id="usernameLabel" text="%username"/>
     <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" minHeight="16" minWidth="69" fx:id="usernameTextfield" />
 
-    <Label GridPane.columnIndex="0" GridPane.rowIndex="3" minHeight="16" minWidth="69" fx:id="passwordLabel" text="Salasana" />
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="3" minHeight="16" minWidth="69" fx:id="passwordLabel" text="%password" />
     <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="3" minHeight="16" minWidth="69" fx:id="passwordField" />        
 
-    <Label GridPane.columnIndex="0" GridPane.rowIndex="4" minHeight="16" minWidth="69" fx:id="passwordConfirmLabel" text="Vahvista salasana" />
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="4" minHeight="16" minWidth="69" fx:id="passwordConfirmLabel" text="%confirmPW" />
     <PasswordField GridPane.columnIndex="1" GridPane.rowIndex="4" minHeight="16" minWidth="69" fx:id="passwordConfirmField" />  
     
-    <Label GridPane.columnIndex="0" GridPane.rowIndex="5" minHeight="16" minWidth="69" fx:id="displayNameLabel" text="Näyttönimi" />
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="5" minHeight="16" minWidth="69" fx:id="displayNameLabel" text="%screenName" />
     <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" minHeight="16" minWidth="69" fx:id="displayNameField" /> 
     
-    <Label GridPane.columnIndex="0" GridPane.rowIndex="6" minHeight="16" minWidth="69" fx:id="emailLabel" text="Sähköposti" />
+    <Label GridPane.columnIndex="0" GridPane.rowIndex="6" minHeight="16" minWidth="69" fx:id="emailLabel" text="%email" />
     <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" minHeight="16" minWidth="69" fx:id="emailField" />
 
-    <Button GridPane.columnIndex="1" GridPane.rowIndex="8" text="Rekisteröidy!" onAction="#handleRegistrationButtonAction" fx:id="registrationButton" />
-    <Text text="Syötä tiedot ja paina rekisteröidy!" GridPane.columnIndex="1" GridPane.rowIndex="9" fx:id="promptRegistrationText" />
+    <Button GridPane.columnIndex="1" GridPane.rowIndex="8" text="%register" onAction="#handleRegistrationButtonAction" fx:id="registrationButton" />
+    <Text text="%fillNReg" GridPane.columnIndex="1" GridPane.rowIndex="9" fx:id="promptRegistrationText" />
     
 </GridPane>
