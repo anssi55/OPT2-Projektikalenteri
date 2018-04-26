@@ -34,15 +34,34 @@
 
     <Button fx:id="LoginButton" onAction="#handleLoginButtonAction" text="%login" GridPane.columnIndex="1" GridPane.rowIndex="5" />
     <Text fx:id="promptLoginText" text="%insertCredentials" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-   	<ChoiceBox fx:id="langChoice" prefHeight="26.0" prefWidth="57.0">
+   	<ComboBox fx:id="langChoice" prefHeight="32" prefWidth="57.0">
    		<items>
             <FXCollections fx:factory="observableArrayList">
-                <Image url = "/images/fi.png"/>
-                <String fx:value="5 minutes" />
-                <String fx:value="15 minutes" />
+                <Label text="suomi">
+                    <graphic> 
+                      <StackPane prefWidth="50">
+                        <ImageView fitHeight="15" preserveRatio="true" >
+                          <image>
+                            <Image url="/images/fi.png" preserveRatio="true" smooth="false" />
+                          </image>
+                        </ImageView>
+                      </StackPane>  
+                    </graphic>  
+                </Label>
+                <Label text="العربية">
+                    <graphic> 
+                        <StackPane prefWidth="50">
+                            <ImageView fitHeight="15" preserveRatio="true">
+                            <image>
+                                <Image url="/images/uae.jpg" preserveRatio="true" smooth="false" />
+                            </image>
+                        </ImageView>
+                      </StackPane>  
+                    </graphic>  
+                </Label> 
             </FXCollections>
         </items>
-    </ChoiceBox>
+    </ComboBox>
    <columnConstraints>
       <ColumnConstraints />
       <ColumnConstraints />
