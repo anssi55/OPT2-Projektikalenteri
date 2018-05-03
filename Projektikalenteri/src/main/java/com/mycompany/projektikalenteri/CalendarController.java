@@ -13,6 +13,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
@@ -54,6 +56,7 @@ public class CalendarController {
 		    	monthPane.setColumnIndex(text, j);
 		    	monthPane.setRowIndex(text, i);
 		    	monthPane.getChildren().addAll(text);
+		    	
 	    		}
     	}
 
@@ -83,12 +86,19 @@ public class CalendarController {
         
         
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("/fxml/CreateEntryScene.fxml"), resources); //$NON-NLS-1$
 			
-			Scene scene = new Scene(root);  
-			dialog.setScene(scene);
-			dialog.setTitle(resources.getString("addEntryTitle"));
-			dialog.show();
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/CreateEntryScene.fxml"), resources); //$NON-NLS-1$
+			AnchorPane pane = loader.load();
+			EntryScreenController controller = loader.getController();
+	        
+	        Scene scene = new Scene(pane);
+	        
+	        dialog.setTitle(resources.getString("addEntryTitle")); 
+	        
+	        dialog.setScene(scene);
+	        
+	        dialog.show();
+	        controller.setKayttaja(kayttaja);
 		
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -153,7 +163,7 @@ public class CalendarController {
 		List<String> list4 = new ArrayList();
 		for (Projekti p: list) {
 			list3.add(p.getNimi());
-			System.out.println(p.getNimi());
+			
 		}
 		for (Projekti p: list2) {
 			list4.add(p.getNimi());

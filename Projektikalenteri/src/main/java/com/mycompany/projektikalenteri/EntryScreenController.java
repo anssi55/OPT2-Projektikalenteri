@@ -1,7 +1,9 @@
 package com.mycompany.projektikalenteri;
 import java.awt.Color;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.*;
 import javafx.fxml.FXMLLoader;
@@ -42,6 +44,7 @@ import javax.swing.JPopupMenu.Separator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.stage.Window;
+import javafx.scene.layout.AnchorPane;
 
 
 public class EntryScreenController {
@@ -74,6 +77,8 @@ public class EntryScreenController {
 	private Text errorText;
 	@FXML
 	private ResourceBundle resources;
+	@FXML
+	private AnchorPane entryPane;
 	
 	
 	
@@ -115,47 +120,99 @@ public class EntryScreenController {
 		startMinute.getSelectionModel().select(minute);
 		endMinute.getSelectionModel().select(minute);
 
-		entryChoice.setItems(FXCollections.observableArrayList(
-				resources.getString("EntryScreenController.personal"), "Projekti") );   //$NON-NLS-1$//$NON-NLS-2$
 		
-		entryChoice.getSelectionModel().select(0);
 		
 		
 	}
 	
 	@FXML
 	public void addEntry(ActionEvent event) {
+		setAllBlanc();
+		boolean canAccept = true;
 		if(messageField.getText().isEmpty()) {
-			messageField.setStyle("-fx-border-color: red"); //$NON-NLS-1$
-			errorText.setText(resources.getString("EntryScreenController.entryIsEmpty")); //$NON-NLS-1$
-			errorText.setStyle("-fx-text-color: red"); //$NON-NLS-1$
+			messageField.setStyle("-fx-border-color: red");
+			errorText.setText(resources.getString("EntryScreenController.entryIsEmpty"));
+			errorText.setStyle("-fx-text-color: red");
+			canAccept = false;
 		}
-		if (endDate.getValue().compareTo(endDate.getValue()) == 1) {
-			endDate.setStyle("-fx-border-color: red"); //$NON-NLS-1$
-			errorText.setText(resources.getString("EntryScreenController.EndTimeb4StartTime")); //$NON-NLS-1$
-			errorText.setStyle("-fx-text-color: red"); //$NON-NLS-1$
-			
-		} else if (endHour.getValue().toString().compareTo(startHour.getValue().toString()) == 1) {
-			endHour.setStyle("-fx-border-color: red"); //$NON-NLS-1$
-			errorText.setText(resources.getString("EntryScreenController.EndTimeb4StartTime")); //$NON-NLS-1$
-			errorText.setStyle("-fx-text-color: red"); //$NON-NLS-1$
-		} else if(endMinute.getValue().toString().compareTo(startMinute.getValue().toString()) == 1 ) {
-			endMinute.setStyle("-fx-border-color: red"); //$NON-NLS-1$
-			errorText.setText(resources.getString("EntryScreenController.EndTimeb4StartTime")); //$NON-NLS-1$
-			errorText.setStyle("-fx-text-color: red"); //$NON-NLS-1$
-		} else {
-			close(event);
-			
+		if(endDate.getValue() == null) {
+			endDate.setStyle("-fx-border-color: red");
+			canAccept = false;
 		}
+		if(startDate.getValue() == null) {
+			startDate.setStyle("-fx-border-color: red");
+			canAccept = false;
+		}
+		if(canAccept == true) {
+			if (endDate.getValue().compareTo(startDate.getValue()) < 0) {
+				errorText.setText(resources.getString("EntryScreenController.EndTimeb4StartTime")); 
+				errorText.setStyle("-fx-text-color: red"); 
+				endDate.setStyle("-fx-border-color: red");
+			}else if(endDate.getValue().compareTo(startDate.getValue()) == 0) {
+				if (endHour.getValue().toString().compareTo(startHour.getValue().toString()) < 0) {
+					errorText.setText(resources.getString("EntryScreenController.EndTimeb4StartTime")); 
+					errorText.setStyle("-fx-text-color: red"); 
+					endHour.setStyle("-fx-border-color: red");
+				}else if(endHour.getValue().toString().compareTo(startHour.getValue().toString()) == 0) {
+					if(endMinute.getValue().toString().compareTo(startMinute.getValue().toString()) <= 0 ) {
+							endMinute.setStyle("-fx-border-color: red"); 
+							errorText.setText(resources.getString("EntryScreenController.EndTimeb4StartTime")); 
+							errorText.setStyle("-fx-text-color: red"); 
+					} else {
+						close(event);
+					}
+				}
+			}
+		}
+				
+		
+		
+		
+			
 	}
+	private void setAllBlanc() {
+		endDate.setStyle("-fx-border-color: transparent");
+		startDate.setStyle("-fx-border-color: transparent");
+		endMinute.setStyle("-fx-border-color: transparent");
+		startMinute.setStyle("-fx-border-color: transparent");
+		endHour.setStyle("-fx-border-color: transparent");
+		startHour.setStyle("-fx-border-color: transparent");
+		messageField.setStyle("-fx-border-color: transparent");
+		
+	}
+
 	@FXML 
 	void close(ActionEvent event) {
 		final Node source = (Node) event.getSource();
 	    final Stage stage = (Stage) source.getScene().getWindow();
 	    stage.close();	
 	}
-	public Kayttaja getKayttaja() {
-		return kayttaja;
+	public void setKayttaja(Kayttaja k) {
+		this.kayttaja = k;
+		
+		List<Projekti> list = kayttaja.getPomona();
+		List<Projekti> list2 = kayttaja.getTekijana();
+		List<String> list3 = new ArrayList();
+		list3.add(resources.getString("EntryScreenController.personal"));
+		for (Projekti p: list) {
+			list3.add(p.getNimi());
+			
+		}
+		for (Projekti p: list2) {
+			list3.add(p.getNimi());
+		}
+		ObservableList<String> items = FXCollections.observableArrayList(list3);
+		
+		
+		
+		
+		if (!items.isEmpty()) {
+			entryChoice.setItems(items);
+			
+		}
+		entryChoice.getSelectionModel().select(0);
+		
+		
 	}
 	
 	
