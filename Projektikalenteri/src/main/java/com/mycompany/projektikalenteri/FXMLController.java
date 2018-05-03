@@ -20,6 +20,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListCell;
 import java.awt.Label;
 import javafx.scene.control.ComboBox;
+import javafx.scene.layout.BorderPane;
 
 public class FXMLController implements Initializable {
 	private ResourceBundle resources;
@@ -59,8 +60,7 @@ public class FXMLController implements Initializable {
         
         if (usernameTextfield.getText().trim().isEmpty()) {
             promptLoginText.setText(resources.getString("FXMLController.insertUsername")); //$NON-NLS-1$
-//        } else if (passwordTextfield.getText().trim().isEmpty()) {
-//            promptText.setText("Syötä salasana!!");
+
         } else {
             System.out.println("Yritetään kirjautua!"); //$NON-NLS-1$
             
@@ -69,17 +69,7 @@ public class FXMLController implements Initializable {
                 String passwd = passwordField.getText();
                 kayttaja = handler.loadUser(user, passwd, promptLoginText);
                 if (kayttaja != null) {
-                	
-//                    Node node = (Node) event.getSource();
-//                    Stage stage = (Stage) node.getScene().getWindow();
-//                    Parent root = FXMLLoader.load(getClass().getResource("/fxml/CalendarScene.fxml"));
-//                    Scene scene = new Scene(root);
-//                    //fillMonthPane();
-//                    //scene.getStylesheets().addAll("/styles/Styles.css", "/styles/LoginStyles.css");
-//                    stage.setTitle("Projektikalenteri - Kalenteri");
-//                    stage.setScene(scene);
-//                    stage.show();
-//                    
+                	kayttaja.setHandler(handler);
                     moveToCalendar(event);
                     
                 }
@@ -131,10 +121,10 @@ public class FXMLController implements Initializable {
     private void handleRegistrationSceneButtonAction(ActionEvent event) throws IOException {
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/LoginScene.fxml"), resources); //$NON-NLS-1$
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/LoginScene.fxml"), resources);
         Scene scene = new Scene(root);
-        scene.getStylesheets().addAll("/styles/Styles.css", "/styles/LoginStyles.css"); //$NON-NLS-1$ //$NON-NLS-2$
-        stage.setTitle(resources.getString("FXMLController.projectCalendar_login")); //$NON-NLS-1$
+        scene.getStylesheets().addAll("/styles/Styles.css", "/styles/LoginStyles.css"); 
+        stage.setTitle(resources.getString("FXMLController.projectCalendar_login")); 
         stage.setScene(scene);
         stage.show();
     }
@@ -158,15 +148,18 @@ public class FXMLController implements Initializable {
     	
     	Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/CalendarScene.fxml"), resources); //$NON-NLS-1$
-        Scene scene = new Scene(root);
-        //fillMonthPane();
-        //scene.getStylesheets().addAll("/styles/Styles.css", "/styles/LoginStyles.css");
-        stage.setTitle(resources.getString("calendarTitle")); //$NON-NLS-1$
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/CalendarScene.fxml"), resources); //$NON-NLS-1$
+        BorderPane pane = loader.load();
+        CalendarController controller = loader.getController();
+        
+        Scene scene = new Scene(pane);
+        
+        stage.setTitle(resources.getString("calendarTitle")); 
         
         stage.setScene(scene);
         
         stage.show();
+        controller.setKayttaja(kayttaja);
         
 
         
@@ -182,6 +175,9 @@ public class FXMLController implements Initializable {
     	
     	
     	
+    }
+    public Kayttaja getKayttaja() {
+    	return kayttaja;
     }
     
 }

@@ -151,7 +151,7 @@ public class DatabaseHandler {
             
         return false;
     }
-    public boolean addProject(String name, Kayttaja k) throws SQLException {
+    public boolean addProject(String name, Kayttaja k, Text t) throws SQLException {
         
         int n = 0;
         try (Connection c = connect()) {
@@ -163,10 +163,13 @@ public class DatabaseHandler {
             checkProject.setString(1, name);
             checkProject.setInt(2, k.getId());
             ResultSet rs = checkProject.executeQuery();
-            rs.next();
-            if (rs.wasNull()) {
-            	return false;
+            
+            if (rs.next() ) {    
+                t.setText("nimi käytössä");
+                return false;
             }
+            
+            
         	
             PreparedStatement insertProject;
             String insertString = "INSERT INTO Project (name, boss) "
@@ -248,11 +251,11 @@ public class DatabaseHandler {
             c.commit();
         
         while(rs.next()) {
-	        String pid= rs.getString("id");
+	        int pid= rs.getInt("id");
 	        String name = rs.getString("name");
-	        String boss = rs.getString("boss");
-	        boss = getNickname(boss, c);
-	        Projekti p = new Projekti(id, name, boss);
+	        int boss = rs.getInt("boss");
+	        String bossS = getNickname(boss, c);
+	        Projekti p = new Projekti(pid, name, bossS);
 	        loadProjectEntrys(p, pid, c);
 	        k.lisaaPomona(p);
         }
@@ -269,16 +272,16 @@ public class DatabaseHandler {
         c.commit();
     
 	    while(rs.next()) {
-	        String pid= rs.getString("id");
+	        int pid= rs.getInt("id");
 	        String name = rs.getString("name");
-	        String boss = rs.getString("boss");
-	        boss = getNickname(boss, c);
-	        Projekti p = new Projekti(id, name, boss);
+	        int boss = rs.getInt("boss");
+	        String bossS = getNickname(boss, c);
+	        Projekti p = new Projekti(id, name, bossS);
 	        loadProjectEntrys(p, pid, c);
 	        k.lisaaTekijana(p);
 	    }
     }
-    public void loadProjectEntrys(Projekti p, String id, Connection c) throws SQLException {
+    public void loadProjectEntrys(Projekti p, int pid2, Connection c) throws SQLException {
     	ResultSet rs = null;
         
         PreparedStatement insertUser;
@@ -287,15 +290,15 @@ public class DatabaseHandler {
         
 			c.setAutoCommit(false);
 			insertUser = c.prepareStatement(insertString);
-            insertUser.setString(1, id);
+            insertUser.setInt(1, pid2);
             
             rs = insertUser.executeQuery();
             c.commit();
         
         while(rs.next()) {
 	        int pid= rs.getInt("id");
-	        String username = rs.getString("user_id");
-	        username = getNickname(username, c);
+	        int userId = rs.getInt("user_id");
+	        String username = getNickname(userId, c);
 	        String sdate = rs.getString("startingTime");
 	        String edate = rs.getString("endTime");
 	        String text = rs.getString("data");
@@ -305,25 +308,29 @@ public class DatabaseHandler {
         
         }
     }
-    public String getNickname(String id, Connection c) {
+    public String getNickname(int id, Connection c) {
     	ResultSet rs = null;
-    	String pid = null;
+    	String nickName;
         try {
             PreparedStatement insertUser;
             String insertString = "SELECT displayName from User "
                     + "WHERE id = ?";
             c.setAutoCommit(false);
             insertUser = c.prepareStatement(insertString);
-            insertUser.setString(1, id);
+            insertUser.setInt(1, id);
             
             rs = insertUser.executeQuery();
             c.commit();
-            pid = rs.getString("id");
+            while (rs.next() ) {
+            	nickName = rs.getString("displayName");
+            	return nickName;
+            }
         
 		} catch (SQLException e) {
 			e.printStackTrace();
+			
 		}
-    	return pid;
+        return null;
     }
     public void loadEntrys(Kayttaja k, String id, Connection c) throws SQLException {
     	ResultSet rs = null;

@@ -45,6 +45,7 @@ import javafx.stage.Window;
 
 
 public class EntryScreenController {
+	private Kayttaja kayttaja;
 	
 	private DatabaseHandler handler;
 	@FXML
@@ -152,6 +153,9 @@ public class EntryScreenController {
 		final Node source = (Node) event.getSource();
 	    final Stage stage = (Stage) source.getScene().getWindow();
 	    stage.close();	
+	}
+	public Kayttaja getKayttaja() {
+		return kayttaja;
 	}
 	
 	

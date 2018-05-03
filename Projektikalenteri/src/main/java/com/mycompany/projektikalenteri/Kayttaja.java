@@ -1,13 +1,15 @@
 package com.mycompany.projektikalenteri;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.text.Text;
 
 /**
  * Created by Miika on 7.2.2018.
  */
 public class Kayttaja {
-
+	private DatabaseHandler handler;
 
     private int id;
 
@@ -17,9 +19,9 @@ public class Kayttaja {
 
     private String nayttonimi;
     
-    private ArrayList<Projekti> pomona;
+    private List<Projekti> pomona;
     
-    private ArrayList<Projekti> tekijana;
+    private List<Projekti> tekijana;
     
     private ArrayList<Kalenterimerkinta> merkinnat;
     
@@ -92,7 +94,19 @@ public class Kayttaja {
 
     public List<Kalenterimerkinta> getMerkinnat() {
         return this.merkinnat;
-    }  
+    }
+    public void setHandler(DatabaseHandler handler) {
+    	this.handler = handler;
+    }
+    public boolean addProject(String s, Text t) {
+    	try {
+			handler.addProject(s, this, t);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+    	return true;
+    }
             
     
 
@@ -101,4 +115,10 @@ public class Kayttaja {
     public String toString() {
         return "Kayttaja [id=" + id + ", Kayttajatunnus=" + Kayttajatunnus + ", salasana=" + salasana + ", nayttonimi=" + nayttonimi + "]";
     }
+
+
+	
+
+
+	
 }

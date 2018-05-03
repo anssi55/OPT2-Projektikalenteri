@@ -3,6 +3,7 @@ package com.mycompany.projektikalenteri;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 
+import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -11,12 +12,13 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
+import javax.naming.Binding;
 
 public class MainApp extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
+    	
     	Locale currentLocale = new Locale("ar","AE");
     	Locale.setDefault(currentLocale);
     	ResourceBundle rb = ResourceBundle.getBundle("MessagesBundle",currentLocale);
@@ -29,6 +31,7 @@ public class MainApp extends Application {
         stage.setScene(loginScene);
         stage.show();
     }
+    
 
     /**
      * The main() method is ignored in correctly deployed JavaFX application.

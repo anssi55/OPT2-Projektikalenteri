@@ -29,10 +29,10 @@ public class Projekti {
         merkinnat = new ArrayList();
         
     }
-    public Projekti(int id, String nimi, String pomo) {
+    public Projekti(int id, String nimi, String boss) {
     	this.id = id;
     	this.nimi = nimi;
-    	this.pomo = pomo;
+    	this.pomo = boss;
     	tiimilaiset = new ArrayList();
     	merkinnat = new ArrayList<Kalenterimerkinta>();
     }

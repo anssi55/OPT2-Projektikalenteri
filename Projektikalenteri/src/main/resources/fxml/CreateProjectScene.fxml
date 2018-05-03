@@ -9,7 +9,7 @@
 <?import javafx.geometry.*?>
 
 
-<GridPane id="createProjectPane" xmlns:fx="http://javafx.com/fxml" fx:controller="com.mycompany.projektikalenteri.FXMLController"  alignment="center" hgap="10" vgap="10">
+<GridPane id="createProjectPane" xmlns:fx="http://javafx.com/fxml" fx:controller="com.mycompany.projektikalenteri.AddProjectController"  alignment="center" hgap="10" vgap="10">
     <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
 
     <Text text="%projectCreation" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2" fx:id="createProjectText" />
@@ -18,8 +18,8 @@
     <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" minHeight="16" minWidth="69" fx:id="projectnameTextfield" />     
     
     <Text text="%fillNNewProject" GridPane.columnIndex="1" GridPane.rowIndex="4" fx:id="promptCreateProjectText" />
-    <Button GridPane.columnIndex="1" GridPane.rowIndex="5" text="%createProjectButton" onAction="#handleLoginButtonAction" fx:id="createProjectButton" />
-    <Button GridPane.columnIndex="1" GridPane.rowIndex="6" text="%cancel" onAction="#handleLoginButtonAction" fx:id="cancelCreateProjectButton" />
+    <Button GridPane.columnIndex="1" GridPane.rowIndex="5" text="%createProjectButton" onAction="#createProject" fx:id="createProjectButton" />
+    <Button GridPane.columnIndex="1" GridPane.rowIndex="6" text="%cancel" onAction="#cancel" fx:id="cancelCreateProjectButton" />
     
 </GridPane>
 
