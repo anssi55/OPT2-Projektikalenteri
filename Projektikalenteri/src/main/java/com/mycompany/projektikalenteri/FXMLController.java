@@ -145,7 +145,12 @@ public class FXMLController implements Initializable {
     
     //Siirtyminen kalenterinäkymään
     private void moveToCalendar(ActionEvent event) throws IOException {
-    	
+    	if (langChoice.getValue().toString().contains("suomi")) {
+            resources = ResourceBundle.getBundle("MessagesBundle", new Locale("fi","FI"));
+        } else {
+            resources = ResourceBundle.getBundle("MessagesBundle", new Locale("ar","AE"));
+        }
+	    
     	Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/CalendarScene.fxml"), resources); //$NON-NLS-1$
@@ -173,7 +178,7 @@ public class FXMLController implements Initializable {
     	kalenteri = new Kalenteri(resources);
     	handler = new DatabaseHandler(resources);
     	
-    	
+    	langChoice.getSelectionModel().select(1);
     	
     }
     public Kayttaja getKayttaja() {
