@@ -180,9 +180,8 @@ public class FXMLController implements Initializable {
     	
     	langChoice.getSelectionModel().select(1);
     	
+
     }
-    public Kayttaja getKayttaja() {
-    	return kayttaja;
-    }
+   
     
 }
