@@ -107,6 +107,40 @@ public class Kayttaja {
 		}
     	return true;
     }
+    public boolean addPersonalEntry(String start, String end, String message) {
+		try {
+			handler.addUserEntry(this, start, end, message);
+		} catch (SQLException e) {	
+			e.printStackTrace();
+			return false;
+		} 
+    	return true;
+    }
+    public boolean addProjectEntry(String start, String end, String message, Projekti project) {
+    	try {
+			handler.addProjectEntry(this, project, start, end, message);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+    }
+    public Projekti findProject(String project, int i) {
+    	if(i == 0) {
+    		for(Projekti k : this.pomona) {
+    			if (k.getNimi() == project) {
+    				return k;
+    			}
+    		} 
+    	} else {
+    		for(Projekti k : this.tekijana) {
+    			if (k.getNimi() == project) {
+    				return k;
+    			}
+    		}
+    	}
+    	return null;	
+    }
             
     
 

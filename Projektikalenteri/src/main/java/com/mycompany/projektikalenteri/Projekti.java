@@ -8,6 +8,7 @@ package com.mycompany.projektikalenteri;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 /**
  *
@@ -17,7 +18,7 @@ public class Projekti {
 	private int id;
     private String nimi;
     private String pomo;
-    private ArrayList<String> tiimilaiset;
+    private HashMap<String, Integer> tiimilaiset;
     private ArrayList<Kalenterimerkinta> merkinnat;
     
     
@@ -25,7 +26,7 @@ public class Projekti {
     public Projekti(String nimi, Kayttaja pomo) {
         this.nimi = nimi;
         this.pomo = pomo.getNayttonimi();
-        tiimilaiset = new ArrayList();
+        tiimilaiset = new HashMap();
         merkinnat = new ArrayList();
         
     }
@@ -33,7 +34,7 @@ public class Projekti {
     	this.id = id;
     	this.nimi = nimi;
     	this.pomo = boss;
-    	tiimilaiset = new ArrayList();
+    	tiimilaiset = new HashMap();
     	merkinnat = new ArrayList<Kalenterimerkinta>();
     }
 
@@ -63,14 +64,14 @@ public class Projekti {
     }
 
     public ArrayList<String> getTiimilaiset() {
-        return tiimilaiset;
+        return new ArrayList<String>(tiimilaiset.keySet());
     }
 
     public void setTiimilaiset(Kayttaja kayttaja) {
-        tiimilaiset.add(kayttaja.getNayttonimi());
+        tiimilaiset.put(kayttaja.getNayttonimi(), kayttaja.getId());
     }
-    public void setTiimilaiset(String k) {
-    	tiimilaiset.add(k);
+    public void setTiimilaiset(String k, int i) {
+    	tiimilaiset.put(k, i);
     }
     public void lisaaMerkinnat(Kalenterimerkinta ka) {
     	this.merkinnat.add(ka);

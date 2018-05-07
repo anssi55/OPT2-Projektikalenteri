@@ -49,6 +49,9 @@ import javafx.scene.layout.AnchorPane;
 
 public class EntryScreenController {
 	private Kayttaja kayttaja;
+	private List<Projekti> list;
+	private List<Projekti> list2;
+	private int splitter;
 	
 	private DatabaseHandler handler;
 	@FXML
@@ -127,6 +130,7 @@ public class EntryScreenController {
 	
 	@FXML
 	public void addEntry(ActionEvent event) {
+		String projectName = entryChoice.getValue().toString();
 		setAllBlanc();
 		boolean canAccept = true;
 		if(messageField.getText().isEmpty()) {
@@ -154,11 +158,22 @@ public class EntryScreenController {
 					errorText.setStyle("-fx-text-color: red"); 
 					endHour.setStyle("-fx-border-color: red");
 				}else if(endHour.getValue().toString().compareTo(startHour.getValue().toString()) == 0) {
-					if(endMinute.getValue().toString().compareTo(startMinute.getValue().toString()) <= 0 ) {
+					if(endMinute.getValue().toString().compareTo(startMinute.getValue().toString()) < 0 ) {
 							endMinute.setStyle("-fx-border-color: red"); 
 							errorText.setText(resources.getString("EntryScreenController.EndTimeb4StartTime")); 
 							errorText.setStyle("-fx-text-color: red"); 
 					} else {
+						String startTime = startDate.getValue().toString() +"-"+startHour.getValue()+"-"+startMinute.getValue();
+						String endTime = endDate.getValue().toString() +"-"+endHour.getValue()+"-"+endMinute.getValue();
+						int c = Character.getNumericValue(projectName.charAt(0));
+						
+						if (c == 1) {
+							kayttaja.addPersonalEntry(startTime, endTime, messageField.getText());
+						} else if(c < splitter) {
+							kayttaja.addProjectEntry(startTime, endTime, messageField.getText(), list.get(c-2));
+						} else {
+							kayttaja.addProjectEntry(startTime, endTime, messageField.getText(), list.get(c- splitter - 2));
+						}
 						close(event);
 					}
 				}
@@ -188,18 +203,22 @@ public class EntryScreenController {
 	    stage.close();	
 	}
 	public void setKayttaja(Kayttaja k) {
+		int orderNumber = 1;
 		this.kayttaja = k;
 		
-		List<Projekti> list = kayttaja.getPomona();
-		List<Projekti> list2 = kayttaja.getTekijana();
+		list = kayttaja.getPomona();
+		list2 = kayttaja.getTekijana();
 		List<String> list3 = new ArrayList();
-		list3.add(resources.getString("EntryScreenController.personal"));
+		list3.add(orderNumber + ": " + resources.getString("EntryScreenController.personal"));
+		orderNumber++;
 		for (Projekti p: list) {
-			list3.add(p.getNimi());
-			
+			list3.add(orderNumber + ": " +p.getNimi());
+			orderNumber++;
 		}
+		splitter = orderNumber;
 		for (Projekti p: list2) {
-			list3.add(p.getNimi());
+			list3.add(orderNumber + ": " + p.getNimi());
+			orderNumber++;
 		}
 		ObservableList<String> items = FXCollections.observableArrayList(list3);
 		
