@@ -37,9 +37,9 @@ public class Kalenteri {
 		return calendar.get(Calendar.DAY_OF_MONTH);
 	}
 	public int getFirstDayOfMonth() {
-		Calendar calendar2 = new GregorianCalendar();
-		calendar2.set(calendar2.DAY_OF_MONTH, 1);
-		return calendar2.get(Calendar.DAY_OF_WEEK);
+		
+		calendar.set(calendar.DAY_OF_MONTH, 1);
+		return calendar.get(Calendar.DAY_OF_WEEK);
 	}
 	public int getMaxDaysInMonth() {
 		return calendar.getActualMaximum(calendar.DAY_OF_MONTH);

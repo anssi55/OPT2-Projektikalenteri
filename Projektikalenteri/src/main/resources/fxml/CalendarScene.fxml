@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.projektikalenteri.CalendarController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.161" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.projektikalenteri.CalendarController">
    <center>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
@@ -111,19 +111,19 @@
    <left>
       <AnchorPane prefHeight="600.0" prefWidth="163.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox layoutX="27.0" layoutY="379.0" prefHeight="194.0" prefWidth="109.0" spacing="20.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.0" AnchorPane.topAnchor="379.0">
+            <VBox layoutX="14.0" layoutY="388.0" prefHeight="185.0" prefWidth="135.0" spacing="20.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="388.0">
                <children>
-                  <Button fx:id="addProject" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addProject" prefHeight="26.0" prefWidth="120.0" text="%addProject" />
-                  <Button fx:id="addEntry" mnemonicParsing="false" onAction="#addEntry" prefHeight="26.0" prefWidth="120.0" text="%addEntry" />
-                  <Button fx:id="monthlyView" mnemonicParsing="false" prefHeight="26.0" prefWidth="120.0" text="%monthView" />
-                  <Button fx:id="weeklyView" mnemonicParsing="false" prefHeight="26.0" prefWidth="120.0" text="%weekView" />
+                  <Button fx:id="addProject" contentDisplay="CENTER" mnemonicParsing="false" onAction="#addProject" prefHeight="26.0" prefWidth="180.0" text="%addProject" />
+                  <Button fx:id="addEntry" mnemonicParsing="false" onAction="#addEntry" prefHeight="26.0" prefWidth="180.0" text="%addEntry" />
+                  <Button fx:id="monthlyView" mnemonicParsing="false" prefHeight="26.0" prefWidth="180.0" text="%monthView" />
+                  <Button fx:id="weeklyView" mnemonicParsing="false" prefHeight="26.0" prefWidth="180.0" text="%weekView" />
                </children>
                <padding>
                   <Insets bottom="4.0" />
                </padding>
             </VBox>
             <ListView fx:id="ownProjects" layoutX="22.0" layoutY="97.0" prefHeight="105.0" prefWidth="120.0" />
-            <Text fx:id="infoText" layoutX="12.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+            <Text fx:id="infoText" layoutX="18.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" underline="true" wrappingWidth="127.39999389648438" />
             <ListView fx:id="otherProjects" layoutX="22.0" layoutY="246.0" prefHeight="105.0" prefWidth="120.0" />
             <Text layoutX="22.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%ownProjects" />
             <Text layoutX="22.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%involvedProjects" />

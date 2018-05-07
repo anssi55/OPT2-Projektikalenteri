@@ -166,13 +166,13 @@ public class EntryScreenController {
 						String startTime = startDate.getValue().toString() +"-"+startHour.getValue()+"-"+startMinute.getValue();
 						String endTime = endDate.getValue().toString() +"-"+endHour.getValue()+"-"+endMinute.getValue();
 						int c = Character.getNumericValue(projectName.charAt(0));
-						
+						boolean success;
 						if (c == 1) {
-							kayttaja.addPersonalEntry(startTime, endTime, messageField.getText());
+							success = kayttaja.addPersonalEntry(startTime, endTime, messageField.getText());
 						} else if(c < splitter) {
-							kayttaja.addProjectEntry(startTime, endTime, messageField.getText(), list.get(c-2));
+							success = kayttaja.addProjectEntry(startTime, endTime, messageField.getText(), list.get(c-2));
 						} else {
-							kayttaja.addProjectEntry(startTime, endTime, messageField.getText(), list.get(c- splitter - 2));
+							success = kayttaja.addProjectEntry(startTime, endTime, messageField.getText(), list.get(c- splitter - 2));
 						}
 						close(event);
 					}
@@ -185,6 +185,7 @@ public class EntryScreenController {
 		
 			
 	}
+	// sets all fields without red borders.
 	private void setAllBlanc() {
 		endDate.setStyle("-fx-border-color: transparent");
 		startDate.setStyle("-fx-border-color: transparent");

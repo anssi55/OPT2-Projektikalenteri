@@ -19,7 +19,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
     	
-    	Locale currentLocale = new Locale("ar","AE");
+    	Locale currentLocale = new Locale("fi","FI");
     	Locale.setDefault(currentLocale);
     	ResourceBundle rb = ResourceBundle.getBundle("MessagesBundle",currentLocale);
         Parent login = FXMLLoader.load(getClass().getResource("/fxml/LoginScene.fxml"), rb);

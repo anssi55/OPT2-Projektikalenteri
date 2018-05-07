@@ -164,7 +164,8 @@ public class DatabaseHandler {
             checkProject.setInt(2, k.getId());
             ResultSet rs = checkProject.executeQuery();
             
-            if (rs.next() ) {    
+            if (rs.next() ) {
+            	t.setFill(Color.RED);
                 t.setText("nimi käytössä");
                 return false;
             }
