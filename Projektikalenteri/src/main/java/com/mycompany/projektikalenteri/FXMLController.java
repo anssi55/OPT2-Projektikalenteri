@@ -177,9 +177,9 @@ public class FXMLController implements Initializable {
     	resources = ResourceBundle.getBundle("MessagesBundle",Locale.getDefault());
     	kalenteri = new Kalenteri(resources);
     	handler = new DatabaseHandler(resources);
-    	
-    	langChoice.getSelectionModel().select(1);
-    	
+    	if(langChoice != null) {
+    		langChoice.getSelectionModel().select(1);
+    	}
 
     }
    
