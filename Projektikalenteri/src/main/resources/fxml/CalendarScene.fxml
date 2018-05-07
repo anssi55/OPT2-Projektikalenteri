@@ -122,8 +122,11 @@
                   <Insets bottom="4.0" />
                </padding>
             </VBox>
-            <ListView fx:id="ownProjects" layoutX="22.0" layoutY="97.0" prefHeight="105.0" prefWidth="120.0" />
-            <Text fx:id="infoText" layoutX="18.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" underline="true" wrappingWidth="127.39999389648438" />
+            <ListView fx:id="ownProjects" layoutX="22.0" layoutY="97.0" onMouseClicked="#projectSettings" prefHeight="105.0" prefWidth="120.0" />
+            <Text fx:id="infoText" layoutX="18.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" underline="true" wrappingWidth="127.39999389648438">
+               <font>
+                  <Font size="20.0" />
+               </font></Text>
             <ListView fx:id="otherProjects" layoutX="22.0" layoutY="246.0" prefHeight="105.0" prefWidth="120.0" />
             <Text layoutX="22.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%ownProjects" />
             <Text layoutX="22.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%involvedProjects" />

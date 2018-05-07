@@ -17,27 +17,27 @@ public class AddProjectController {
 	private Text promptCreateProjectText;
 	@FXML
 	private ResourceBundle resources;
+	private CalendarController c;
+
+
 	
-	
-	public void setKayttaja(Kayttaja kayttaja) {
-		this.kayttaja = kayttaja;
-	}
 
 	@FXML
     private void createProject(ActionEvent event) {
 		String s = projectnameTextfield.getText();
 		if (!s.equals("")) {
-			
+
 			boolean b = kayttaja.addProject(s, promptCreateProjectText);
 			if (b == true) {
-				promptCreateProjectText.setFill(Color.GREEN); 
+				promptCreateProjectText.setFill(Color.GREEN);
 				promptCreateProjectText.setText(s + " " + resources.getString("projectCreationSuccessful"));
+				c.fillInfo();
 			}
-			
+
 		} else {
-			promptCreateProjectText.setFill(Color.RED); 
+			promptCreateProjectText.setFill(Color.RED);
 			promptCreateProjectText.setText(resources.getString("setNameforProject"));
-			
+
 		}
 	}
 	@FXML
@@ -46,6 +46,11 @@ public class AddProjectController {
 	    final Stage stage = (Stage) source.getScene().getWindow();
 	    stage.close();
 	}
-	
+
+	public void setAll(Kayttaja kayttaja, CalendarController c) {
+		this.kayttaja = kayttaja;
+		this.c = c;
+	}
+
 
 }

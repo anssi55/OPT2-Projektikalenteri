@@ -2,14 +2,17 @@ package com.mycompany.projektikalenteri;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ResourceBundle;
+
 import javafx.scene.text.Text;
 
 /**
  * Created by Miika on 7.2.2018.
  */
 public class Kayttaja {
-	private DatabaseHandler handler;
+    private DatabaseHandler handler;
 
     private int id;
 
@@ -18,21 +21,21 @@ public class Kayttaja {
     private String salasana;
 
     private String nayttonimi;
-    
+
     private List<Projekti> pomona;
-    
+
     private List<Projekti> tekijana;
-    
+
     private ArrayList<Kalenterimerkinta> merkinnat;
-    
+
     public Kayttaja(int id, String email, String nayttonimi) {
-    	this.id = id;
-    	this.Kayttajatunnus = email;
-    	this.nayttonimi = nayttonimi;
-    	pomona = new ArrayList<Projekti>();
-    	tekijana = new ArrayList<Projekti>();
-    	this.merkinnat = new ArrayList<Kalenterimerkinta>();
-    	
+        this.id = id;
+        this.Kayttajatunnus = email;
+        this.nayttonimi = nayttonimi;
+        pomona = new ArrayList<Projekti>();
+        tekijana = new ArrayList<Projekti>();
+        this.merkinnat = new ArrayList<Kalenterimerkinta>();
+
     }
 
 
@@ -72,22 +75,22 @@ public class Kayttaja {
     public Projekti luoProjekti(String nimi) {
         Projekti projekti = new Projekti(nimi, this);
         pomona.add(projekti);
-        return projekti;   
+        return projekti;
     }
     public void lisaaPomona(Projekti p) {
-    	pomona.add(p);
+        pomona.add(p);
     }
     public void lisaaTekijana(Projekti p) {
-    	tekijana.add(p);
+        tekijana.add(p);
     }
     public void lisaaMerkinnat(Kalenterimerkinta lista) {
-    	this.merkinnat.add(lista);
+        this.merkinnat.add(lista);
     }
-    
+
     public List<Projekti> getPomona() {
         return this.pomona;
     }
-            
+
     public List<Projekti> getTekijana() {
         return this.tekijana;
     }
@@ -96,53 +99,59 @@ public class Kayttaja {
         return this.merkinnat;
     }
     public void setHandler(DatabaseHandler handler) {
-    	this.handler = handler;
+        this.handler = handler;
+
     }
     public boolean addProject(String s, Text t) {
-    	try {
-			handler.addProject(s, this, t);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
-    	return true;
+        try {
+            return handler.addProject(s, this, t);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
     public boolean addPersonalEntry(String start, String end, String message) {
-		try {
-			handler.addUserEntry(this, start, end, message);
-		} catch (SQLException e) {	
-			e.printStackTrace();
-			return false;
-		} 
-    	return true;
+        try {
+            return handler.addUserEntry(this, start, end, message);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
     public boolean addProjectEntry(String start, String end, String message, Projekti project) {
+        try {
+            return handler.addProjectEntry(this, project, start, end, message);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    public boolean removeProject(Projekti p, Text t){
     	try {
-			handler.addProjectEntry(this, project, start, end, message);
+    		return handler.removeProject(p.getNimi(), this, t);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
-		return true;
     }
-    public Projekti findProject(String project, int i) {
-    	if(i == 0) {
-    		for(Projekti k : this.pomona) {
-    			if (k.getNimi() == project) {
-    				return k;
-    			}
-    		} 
-    	} else {
-    		for(Projekti k : this.tekijana) {
-    			if (k.getNimi() == project) {
-    				return k;
-    			}
-    		}
+    public void removeProjectFromList(String s) {
+    	Iterator<Projekti> i = pomona.iterator();
+    	while (i.hasNext()) {
+    	   Projekti o = i.next();
+    	   if(o.getNimi().equals(s)) {
+    		   i.remove();
+    	   }
     	}
-    	return null;	
     }
-            
-    
+    public void changeHandlersResourceBundle(ResourceBundle b) {
+    	handler.changeResourceBundle(b);
+    }
+
 
 
     @Override
@@ -151,8 +160,11 @@ public class Kayttaja {
     }
 
 
-	
 
 
-	
+
+
+
+
+
 }
