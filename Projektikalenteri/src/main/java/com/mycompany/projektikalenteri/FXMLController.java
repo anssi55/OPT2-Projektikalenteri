@@ -146,9 +146,13 @@ public class FXMLController implements Initializable {
     //Siirtyminen kalenterinäkymään
     private void moveToCalendar(ActionEvent event) throws IOException {
     	if (langChoice.getValue().toString().contains("suomi")) {
-            resources = ResourceBundle.getBundle("MessagesBundle", new Locale("fi","FI"));
+    		Locale currentLocale = new Locale("fi","FI");
+        	Locale.setDefault(currentLocale);
+            resources = ResourceBundle.getBundle("MessagesBundle", currentLocale);
         } else {
-            resources = ResourceBundle.getBundle("MessagesBundle", new Locale("ar","AE"));
+        	Locale currentLocale = new Locale("ar","AE");
+        	Locale.setDefault(currentLocale);
+            resources = ResourceBundle.getBundle("MessagesBundle", currentLocale);
         }
 
     	Node node = (Node) event.getSource();

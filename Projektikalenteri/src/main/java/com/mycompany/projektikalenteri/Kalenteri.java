@@ -13,6 +13,7 @@ public class Kalenteri {
 	SimpleDateFormat sdf;
 	Calendar calendar;
 	ResourceBundle messages;
+	int local = 2;
 	
 	
 
@@ -20,6 +21,9 @@ public class Kalenteri {
 
 	public Kalenteri(ResourceBundle messages) {
 		this.messages = messages;
+		if(!messages.getLocale().toString().equals("fi_FI")) {
+			local = 1;
+		}
 		sdf = new SimpleDateFormat("yyyy M dd HH:mm:ss");	
 		calendar = new GregorianCalendar();
 		year       = calendar.get(Calendar.YEAR);
@@ -37,9 +41,12 @@ public class Kalenteri {
 		return calendar.get(Calendar.DAY_OF_MONTH);
 	}
 	public int getFirstDayOfMonth() {
-		
 		calendar.set(calendar.DAY_OF_MONTH, 1);
-		return calendar.get(Calendar.DAY_OF_WEEK);
+		int day = calendar.get(Calendar.DAY_OF_WEEK) -local;
+		if (day < 0) {
+			day = day+6;
+		}
+		return day;
 	}
 	public int getMaxDaysInMonth() {
 		return calendar.getActualMaximum(calendar.DAY_OF_MONTH);
