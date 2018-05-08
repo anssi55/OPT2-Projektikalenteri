@@ -60,6 +60,8 @@ public class FXMLController implements Initializable {
 
         if (usernameTextfield.getText().trim().isEmpty()) {
             promptLoginText.setText(resources.getString("FXMLController.insertUsername")); //$NON-NLS-1$
+        } else if (passwordField.getText().trim().isEmpty()) {
+            promptLoginText.setText(resources.getString("FXMLController.insertPassword"));
 
         } else {
             System.out.println("Yritetään kirjautua!"); //$NON-NLS-1$
