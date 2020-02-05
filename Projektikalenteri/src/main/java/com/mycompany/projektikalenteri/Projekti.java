@@ -26,8 +26,8 @@ public class Projekti {
     public Projekti(String nimi, Kayttaja pomo) {
         this.nimi = nimi;
         this.pomo = pomo.getNayttonimi();
-        tiimilaiset = new HashMap();
-        merkinnat = new ArrayList();
+        tiimilaiset = new HashMap<String, Integer>();
+        merkinnat = new ArrayList<Kalenterimerkinta>();
         
     }
     public Projekti(int id, String nimi, String boss) {
