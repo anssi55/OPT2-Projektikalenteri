@@ -31,6 +31,5 @@
     <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" minHeight="16" minWidth="69" fx:id="emailField" />
 
     <Button GridPane.columnIndex="1" GridPane.rowIndex="8" text="%register" onAction="#handleRegistrationButtonAction" fx:id="registrationButton" />
-    <Text text="%fillNReg" GridPane.columnIndex="1" GridPane.rowIndex="9" fx:id="promptRegistrationText" />
-    
+    <Text text="%fillNReg" GridPane.columnIndex="1" GridPane.rowIndex="9" fx:id="promptRegistrationText" />    
 </GridPane>
