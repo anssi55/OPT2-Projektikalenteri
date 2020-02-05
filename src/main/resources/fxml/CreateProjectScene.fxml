@@ -22,5 +22,3 @@
     <Button GridPane.columnIndex="1" GridPane.rowIndex="6" text="Peruuta!" onAction="#handleLoginButtonAction" fx:id="cancelCreateProjectButton" />
     
 </GridPane>
-
-

@@ -1,0 +1,8 @@
+package com.mycompany.projektikalenteri;
+
+public class Main {
+
+    public static void main(String[] args) {
+        MainApp.main(args);
+    }
+}
