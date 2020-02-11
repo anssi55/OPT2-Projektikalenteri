@@ -30,7 +30,7 @@ public class LoggedInUser extends User {
         this.projectsWhereMember.add(project);
     }
 
-    public void setEntry(Entry entry) {
+    public void setEntry(CalendarEntry entry) {
         this.calendarEntries.add(entry);
     }
 
@@ -42,7 +42,7 @@ public class LoggedInUser extends User {
         return this.projectsWhereMember;
     }
 
-    public List<Entry> getEntries() {
+    public List<CalendarEntry> getEntries() {
         return this.entries;
     }
 
