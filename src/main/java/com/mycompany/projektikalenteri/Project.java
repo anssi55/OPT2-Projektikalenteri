@@ -5,21 +5,22 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 
+import main.java.com.mycompany.projektikalenteri.ProjectCalendarEntry;
+import main.java.com.mycompany.projektikalenteri.User;
+
 public class Project {
     private int id;
     private String name;
     private User groupLeader;
     private ArrayList<User> teamMembers;
-    private ArrayList<Kalenterimerkinta> calendarEntries;
-    private ResourceBundle resources;
+    private ArrayList<ProjectCalendarEntry> calendarEntries;
 
-    public Projekti(int id, String name, String groupLeader, ResourceBundle resources ) {
-    	this.id = id;
-    	this.name = name;
+    public Project(int id, String name, User groupLeader) {
+        this.id = id;
+        this.name = name;
         this.groupLeader = groupLeader;
         this.teamMembers = new ArrayList<User>();
-        this.calendarEntries = new ArrayList<Kalenterimerkinta>();
-        this.resources = resources;
+        this.calendarEntries = new ArrayList<ProjectCalendarEntry>();
     }
 
     public String getName() {
@@ -46,11 +47,17 @@ public class Project {
         return this.groupLeader;
     }
 
-    public void setGroupLeader(User groupLeader) {
-        this.groupLeader = groupLeader;
+    public User getTeamMember(int id) {
+        User user = null;
+        for (User u : this.teamMembers) {
+            if (u.getId() == id) {
+                user = u;
+            }
+        }
+        return user;
     }
 
-    public ArrayList<String> getTeamMemberst() {
+    public ArrayList<User> getTeamMembers() {
         return this.teamMembers;
     }
 
@@ -58,13 +65,13 @@ public class Project {
         this.teamMembers.add(teamMember);
     }
 
-    public void setEntry(CalendarEntry calendarEntry) {
+    public void setEntry(ProjectCalendarEntry calendarEntry) {
         this.calendarEntries.add(calendarEntry);
     }
 
     @Override
     public String toString() {
-        return resources.getString("name") + " " + this.name + " Id: " + this.id;
+        return this.name + " " + this.id;
     }
 
 }
