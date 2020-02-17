@@ -9,29 +9,28 @@ import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+
 public class AddProjectController {
-	private Kayttaja kayttaja;
+	private LoggedInUser user;
 	@FXML
 	private TextField projectnameTextfield;
 	@FXML
 	private Text promptCreateProjectText;
 	@FXML
 	private ResourceBundle resources;
-	private CalendarController c;
-
-
-	
+	private CalendarController controller;
 
 	@FXML
-    private void createProject(ActionEvent event) {
-		String s = projectnameTextfield.getText();
-		if (!s.equals("")) {
-
-			boolean b = kayttaja.addProject(s, promptCreateProjectText);
-			if (b == true) {
+	private void createProject(ActionEvent event) {
+		String projectName = projectnameTextfield.getText();
+		if (!projectName.equals("")) {
+			try {
+				user.createProject(projectName);
 				promptCreateProjectText.setFill(Color.GREEN);
-				promptCreateProjectText.setText(s + " " + resources.getString("projectCreationSuccessful"));
-				c.fillInfo();
+				promptCreateProjectText.setText(projectName + " " + resources.getString("projectCreationSuccessful"));
+				controller.fillInfo();
+			} catch(Exception e) {
+				
 			}
 
 		} else {
@@ -40,17 +39,17 @@ public class AddProjectController {
 
 		}
 	}
+
 	@FXML
-    private void cancel(ActionEvent event) {
+	private void cancel(ActionEvent event) {
 		final Node source = (Node) event.getSource();
-	    final Stage stage = (Stage) source.getScene().getWindow();
-	    stage.close();
+		final Stage stage = (Stage) source.getScene().getWindow();
+		stage.close();
 	}
 
-	public void setAll(Kayttaja kayttaja, CalendarController c) {
-		this.kayttaja = kayttaja;
-		this.c = c;
+	public void setAll(LoggedInUser user, CalendarController controller) {
+		this.user = user;
+		this.controller = controller;
 	}
-
 
 }

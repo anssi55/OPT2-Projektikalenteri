@@ -24,67 +24,62 @@ import javafx.scene.input.MouseEvent;
 
 public class CalendarController {
 
-	private Kayttaja kayttaja;
-	private Kalenteri kalenteri;
+	private LoggedInUser user;
+	private Calendar calendar;
 	@FXML
 	private ResourceBundle resources;
 	@FXML
-    private GridPane monthPane;
-
-    @FXML
-    private Text monthName;
-    @FXML
-    private Text infoText;
-    @FXML
-    private ListView ownProjects;
-    @FXML
-    private ListView otherProjects;
-    private List<Projekti> list;
-
-	private void fillMonthPane() throws IOException {
-    	monthName.setText(kalenteri.getMonthName()+"   "+kalenteri.getYear());
-    	monthPane.getChildren().clear();
-    	monthPane.setGridLinesVisible(true);
-    	int day = 1;
-    	int firstDay = kalenteri.getFirstDayOfMonth();
-    	for (int i = 0; i <= 5; i++) {
-    		for (int j = 0; j < 7; j++){
-    			if (i == 0 && j==0) j = (j+firstDay);
-	    		if (day > kalenteri.getMaxDaysInMonth()) return;
-		    	Text text = new Text(Integer.toString(day));
-		    	day++;
-
-		    	monthPane.setColumnIndex(text, j);
-		    	monthPane.setRowIndex(text, i);
-		    	monthPane.getChildren().addAll(text);
-
-	    		}
-    	}
-
-    }
-
-    @FXML
-    private void handlePreviousMonthButton(ActionEvent event) throws IOException {
-    	kalenteri.setMonthToPrevious();
-    	fillMonthPane();
-    }
-    @FXML
-    private void handleNextMonthButton(ActionEvent event) throws IOException {
-    	kalenteri.setMonthToNext();
-    	fillMonthPane();
-    }
-
-
-
-
-
-
+	private GridPane monthPane;
 
 	@FXML
-    private void addEntry(ActionEvent event) {
-    	EntryScreenController c = new EntryScreenController();
-    	final Stage dialog = new Stage();
+	private Text monthName;
+	@FXML
+	private Text infoText;
+	@FXML
+	private ListView ownProjects;
+	@FXML
+	private ListView otherProjects;
+	private List<Project> listOfOwnProjects;
 
+	private void fillMonthPane() throws IOException {
+		monthName.setText(this.calendar.getMonthName() + "   " + this.calendar.getYear());
+		monthPane.getChildren().clear();
+		monthPane.setGridLinesVisible(true);
+		int day = 1;
+		int firstDay = this.calendar.getFirstDayOfMonth();
+		for (int i = 0; i <= 5; i++) {
+			for (int j = 0; j < 7; j++) {
+				if (i == 0 && j == 0)
+					j = (j + firstDay);
+				if (day > this.calendar.getMaxDaysInMonth())
+					return;
+				Text text = new Text(Integer.toString(day));
+				day++;
+
+				monthPane.setColumnIndex(text, j);
+				monthPane.setRowIndex(text, i);
+				monthPane.getChildren().addAll(text);
+
+			}
+		}
+
+	}
+
+	@FXML
+	private void handlePreviousMonthButton(ActionEvent event) throws IOException {
+		this.calendar.setMonthToPrevious();
+		fillMonthPane();
+	}
+
+	@FXML
+	private void handleNextMonthButton(ActionEvent event) throws IOException {
+		this.calendar.setMonthToNext();
+		fillMonthPane();
+	}
+
+	@FXML
+	private void addEntry(ActionEvent event) {
+		final Stage dialog = new Stage();
 
 		try {
 
@@ -92,137 +87,130 @@ public class CalendarController {
 			AnchorPane pane = loader.load();
 			EntryScreenController controller = loader.getController();
 
-	        Scene scene = new Scene(pane);
+			Scene scene = new Scene(pane);
 
-	        dialog.setTitle(resources.getString("addEntryTitle"));
+			dialog.setTitle(resources.getString("addEntryTitle"));
 
-	        dialog.setScene(scene);
+			dialog.setScene(scene);
 
-	        dialog.show();
-	        controller.setKayttaja(kayttaja);
+			dialog.show();
+			controller.setUser(user);
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-    }
-    @FXML
-    private void addProject(ActionEvent event) {
-    	final Stage dialog = new Stage();
-        Parent root;
+	}
+
+	@FXML
+	private void addProject(ActionEvent event) {
+		final Stage dialog = new Stage();
+		Parent root;
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/CreateProjectScene.fxml"), resources); //$NON-NLS-1$
-	        GridPane pane = loader.load();
-	        AddProjectController controller = loader.getController();
+			GridPane pane = loader.load();
+			AddProjectController controller = loader.getController();
 
-	        Scene scene = new Scene(pane);
+			Scene scene = new Scene(pane);
 
-	        dialog.setTitle(resources.getString("addProjectTitle"));
+			dialog.setTitle(resources.getString("addProjectTitle"));
 
-	        dialog.setScene(scene);
+			dialog.setScene(scene);
 
-	        dialog.show();
-	        controller.setAll(kayttaja, this);
-
+			dialog.show();
+			controller.setAll(user, this);
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-    }
-    @FXML
+	}
+
+	@FXML
 	public void initialize() {
 
-    	kalenteri = new Kalenteri(resources);
-    	
-    	try {
+		this.calendar = new Calendar(resources);
+
+		try {
 			fillMonthPane();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
+	}
 
+	public LoggedInUser getUser() {
+		return this.user;
 
-    }
-    public Kayttaja getKayttaja() {
-		return kayttaja;
+	}
 
-    }
-
-	public void setKayttaja(Kayttaja kayttaja) {
-		this.kayttaja = kayttaja;
-		kayttaja.changeHandlersResourceBundle(resources);
+	public void setUser(LoggedInUser user) {
+		this.user = user;
 		fillInfo();
 
 	}
+
 	public void fillInfo() {
-		String text = resources.getString("user")+": "+kayttaja.getKayttajatunnus();
+		String text = resources.getString("user") + ": " + user.getUserName();
 
 		infoText.setText(text);
-		list = kayttaja.getPomona();
-		List<Projekti> list2 = kayttaja.getTekijana();
-		List<String> list3 = new ArrayList();
-		List<String> list4 = new ArrayList();
-		for (Projekti p: list) {
-			list3.add(p.getNimi());
+		listOfOwnProjects = user.getProjectsWhereLeader();
+		List<Project> listOfOtherProjects = user.getProjectsWhereMember();
+		List<String> ownProjectNames = new ArrayList();
+		List<String> otherProjectNames = new ArrayList();
+		for (Project p : listOfOwnProjects) {
+			ownProjectNames.add(p.getName());
 
 		}
-		for (Projekti p: list2) {
-			list4.add(p.getNimi());
+		for (Project p : listOfOtherProjects) {
+			otherProjectNames.add(p.getName());
+
 		}
-		ObservableList<String> items = FXCollections.observableArrayList(list3);
-		ObservableList<String> items2 = FXCollections.observableArrayList(list4);
+		ObservableList<String> ownProjectsOList = FXCollections.observableArrayList(ownProjectNames);
+		ObservableList<String> otherProjectsOList = FXCollections.observableArrayList(otherProjectNames);
 
-
-
-		ownProjects.setItems(items);
-
-
-
-		if (!items2.isEmpty()) {
-			otherProjects.setItems(items);
-
+		if (!ownProjectsOList.isEmpty()) {
+			ownProjects.setItems(ownProjectsOList);
+		}
+		if (!otherProjectsOList.isEmpty()) {
+			otherProjects.setItems(otherProjectsOList);
 		}
 
 	}
+
 	@FXML
-    public void projectSettings(MouseEvent click) {
-		if(click.getClickCount() == 2 && !list.isEmpty()) {
+	public void projectSettings(MouseEvent click) {
+		if (click.getClickCount() == 2 && !listOfOwnProjects.isEmpty()) {
 			final Stage dialog = new Stage();
-	        Parent root;
+			Parent root;
 			try {
 				FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/EditProjectScene.fxml"), resources);
 				AnchorPane pane = loader.load();
 
 				EditProjectController controller = loader.getController();
-		        Scene scene = new Scene(pane);
+				Scene scene = new Scene(pane);
 
-		        dialog.setTitle(resources.getString("addProjectTitle"));
+				dialog.setTitle(resources.getString("addProjectTitle"));
 
-		        dialog.setScene(scene);
+				dialog.setScene(scene);
 
-		        dialog.show();
-		        Projekti p = null;
-		        String s = ownProjects.getSelectionModel().getSelectedItem().toString();
-		        for (Projekti pr : list) {
-		        	if (pr.getNimi().equals(s)) {
-		        		p = pr;
-		        		break;
-		        	}
-		        }
-		        controller.setAll(kayttaja, p, this);
+				dialog.show();
+				Project selectedProject = null;
+				String projectName = ownProjects.getSelectionModel().getSelectedItem().toString();
+				for (Project project : listOfOwnProjects) {
+					if (project.getName().equals(projectName)) {
+						selectedProject = project;
+						break;
+					}
+				}
+				controller.setAll(user, selectedProject, this);
 
-		        controller.setItems();
+				controller.setItems();
 
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-
-
-
-
-
 
 }
