@@ -1,8 +1,6 @@
-package main.java.com.mycompany.projektikalenteri;
+package com.mycompany.projektikalenteri;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+
 
 public class User {
 
