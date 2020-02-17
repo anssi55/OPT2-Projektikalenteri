@@ -1,4 +1,4 @@
-package main.java.com.mycompany.projektikalenteri;
+package com.mycompany.projektikalenteri;
 
 import java.time.LocalDate;
 
