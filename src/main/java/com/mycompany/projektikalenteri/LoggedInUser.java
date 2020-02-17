@@ -43,7 +43,7 @@ public class LoggedInUser extends User {
     }
 
     public List<CalendarEntry> getEntries() {
-        return this.entries;
+        return this.calendarEntries;
     }
 
     public void setDatabaseService(DatabaseService dBService) {
@@ -51,27 +51,35 @@ public class LoggedInUser extends User {
     }
 
     public void createProject(String name) throws Exception {
-        Project project = databaseService.createProject(name, this);
+        Project project = dBService.createProject(name, this);
         setProjectWhereLeader(project);
     }
 
-    public void CreatePersonalEntry(LocalDate startTime, LocalDate endTime, String entryMessage) throws Exception {
-        Entry entry = dBService.createUserEntry(this, start, end, entryMessage);
-        setEntry(entry);
+    public void CreatePersonalEntry(String startTime, String endTime, String entryMessage) throws Exception {
+        CalendarEntry calendarEntry = dBService.createCalendarEntry(this, startTime, endTime, entryMessage);
+        setEntry(calendarEntry);
     }
 
-    public void createProjectEntry(LocalDate startTime, LocalDate endTime, String entryMessage, Project project)
+    public void createProjectEntry(String startTime, String endTime, String entryMessage, Project project)
             throws Exception {
-        ProjectEntry projectEntry = dBService.addProjectEntry(this, project, startTime, endTime, entryMessage);
-        project.setEntry(projectEntry);
+        try {
+            dBService.createProjectCalendarEntry(this, project, startTime, endTime, entryMessage);
+
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     public void removeProject(Project project) throws Exception {
-        dBService.removeProject(project, this);
-        removeProjectFromList(project);
+        try {
+            dBService.deleteProject(project.getId());
+            deleteProjectFromList(project);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
-    public void removeProjectFromList(Project project) {
+    public void deleteProjectFromList(Project project) {
         Iterator<Project> iterator = this.projectsWhereLeader.iterator();
         while (iterator.hasNext()) {
             Project p = iterator.next();
