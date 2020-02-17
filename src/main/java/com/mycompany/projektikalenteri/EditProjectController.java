@@ -17,28 +17,28 @@ public class EditProjectController {
 	@FXML
 	private ResourceBundle resources;
 	@FXML
-	private ListView<String> members;
+	private ListView<String> teamMembers;
 	@FXML
 	private Text projectName;
 	@FXML
 	private Text errorText;
 
-	private Kayttaja kayttaja;
-	private Projekti projekti;
-	private CalendarController c;
+	private LoggedInUser user;
+	private Project project;
+	private CalendarController cController;
 
-	public void setAll(final Kayttaja k, final Projekti p, final CalendarController c) {
-		this.kayttaja = k;
-		this.projekti = p;
-		this.c = c;
+	public void setAll(final LoggedInUser user, final Project project, final CalendarController cController) {
+		this.user = user;
+		this.project = project;
+		this.cController = cController;
 	}
 
 	public void setItems() {
-		projectName.setText((resources.getString("project") + " " + projekti.getNimi() + "\n"
-				+ resources.getString("boss") + " " + projekti.getPomo()));
-		final List<String> list3 = projekti.getTiimilaiset();
+		projectName.setText((resources.getString("project") + " " + project.getName() + "\n"
+				+ resources.getString("boss") + " " + project.getGroupLeader().getDisplayName()));
+		final List<String> list3 = project.getTeamMemberNames();
 		final ObservableList<String> items = FXCollections.observableArrayList(list3);
-		members.setItems(items);
+		teamMembers.setItems(items);
 	}
 
 	@FXML
@@ -50,8 +50,12 @@ public class EditProjectController {
 
 	@FXML
 	void removeProject(final ActionEvent event) {
-		kayttaja.removeProject(projekti, errorText);
-		c.fillInfo();
+		try {
+			user.removeProject(project);
+		} catch (Exception e) {
+			errorText.setText(e.getMessage());
+		}
+		cController.fillInfo();
 		close(event);
 	}
 

@@ -1,6 +1,7 @@
 
-import com.mycompany.projektikalenteri.Kalenterimerkinta;
+/**import com.mycompany.projektikalenteri.Kalenterimerkinta;
 import com.mycompany.projektikalenteri.Kayttaja;
+import com.mycompany.projektikalenteri.LoggedInUser;
 import com.mycompany.projektikalenteri.Projekti;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -9,13 +10,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author henri
- */
 public class KayttajaTest {
     
-    private Kayttaja kayttaja;
+    private LoggedInUser user;
     
     public KayttajaTest() {
     }
@@ -30,7 +27,7 @@ public class KayttajaTest {
     
     @Before
     public void setUp() {
-        kayttaja = new Kayttaja(1, "test@test.com", "testiNimi");
+        user = new LoggedInUser(1, "test@test.com", "testiNimi");
     }
     
     @After
@@ -39,12 +36,12 @@ public class KayttajaTest {
 
     @Test
     public void kayttajanAlustus() {
-        assertEquals("Tarkista kayttajan id:n alustus toiminto", 1, kayttaja.getId());
-        assertTrue("Tarkista kayttajan kayttajatunnuksen alustus toiminto", kayttaja.getKayttajatunnus().equals("test@test.com"));
-        assertTrue("Tarkista kayttajan nayttonimen alustus toiminto", kayttaja.getNayttonimi().equals("testiNimi"));
-        assertEquals("Tarkista kayttajan pomonalistan alustus toiminto", 0, kayttaja.getPomona().size());
-        assertEquals("Tarkista kayttajan tekijanalistan alustus toiminto", 0, kayttaja.getTekijana().size());
-        assertEquals("Tarkista kayttajan merkinnatlistan alustus toiminto", 0, kayttaja.getMerkinnat().size());
+        assertEquals("Tarkista kayttajan id:n alustus toiminto", 1, user.getId());
+        assertTrue("Tarkista kayttajan kayttajatunnuksen alustus toiminto", user.getKayttajatunnus().equals("test@test.com"));
+        assertTrue("Tarkista kayttajan nayttonimen alustus toiminto", user.getNayttonimi().equals("testiNimi"));
+        assertEquals("Tarkista kayttajan pomonalistan alustus toiminto", 0, user.getPomona().size());
+        assertEquals("Tarkista kayttajan tekijanalistan alustus toiminto", 0, user.getTekijana().size());
+        assertEquals("Tarkista kayttajan merkinnatlistan alustus toiminto", 0, user.getMerkinnat().size());
     }
     
     @Test
@@ -107,8 +104,11 @@ public class KayttajaTest {
     @Test
     public void lisaaMerkinnatTarkistus() {
         assertEquals("Tarkista kayttajan lisaaMerkinnat toiminto", 0, kayttaja.getMerkinnat().size());
-        kayttaja.lisaaMerkinnat(new Kalenterimerkinta(kayttaja.getNayttonimi()));
+        kayttaja.lisaaMerkinnat(new CalendarEntry(user..getNayttonimi()));
         assertEquals("Tarkista kayttajan lisaaMerkinnat toiminto", 1, kayttaja.getMerkinnat().size());
         assertTrue("Tarkista kayttajan lisaaMerkinnat toiminto", kayttaja.getMerkinnat().get(0).getKayttaja().equals(kayttaja.getNayttonimi()));
     }
+    
+   
 }
+ */

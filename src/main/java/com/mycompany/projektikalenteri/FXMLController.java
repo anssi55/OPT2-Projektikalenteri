@@ -24,8 +24,8 @@ import javafx.scene.layout.BorderPane;
 
 public class FXMLController implements Initializable {
 	private ResourceBundle resources;
-    private DatabaseHandler handler;
-    private Kayttaja kayttaja;
+    private DatabaseService dBService;
+    private LoggedInUser user;
 
     @FXML
     private ComboBox langChoice;
@@ -67,16 +67,16 @@ public class FXMLController implements Initializable {
             System.out.println("Yritetään kirjautua!"); //$NON-NLS-1$
 
             try{
-                String user = usernameTextfield.getText();
-                String passwd = passwordField.getText();
-                kayttaja = handler.loadUser(user, passwd, promptLoginText);
-                if (kayttaja != null) {
-                	kayttaja.setHandler(handler);
-                    moveToCalendar(event);
+                String userName = usernameTextfield.getText();
+                String password = passwordField.getText();
+                user = dBService.loadLoggedInUser(userName, password);
+                if (user != null) {
+                	user.setDatabaseService(dBService);
+                    moveToCalendarScene(event);
 
                 }
 
-            } catch (SQLException ex) {
+            } catch (Exception ex) {
                 System.out.println("Kirjautuminen epäonnistui"); //$NON-NLS-1$
                 ex.printStackTrace();
 
@@ -97,17 +97,16 @@ public class FXMLController implements Initializable {
         }
         if (passwordField.getText().equals(passwordConfirmField.getText())){
 	        try{
-	            String user = usernameTextfield.getText();
+	            String userName = usernameTextfield.getText();
 	            String passwd = passwordField.getText();
-	            String email = emailField.getText();
 	            String displayName = displayNameField.getText();
-	            boolean userAdded = handler.addUser(user, passwd, email, displayName);
+	            user = dBService.createUser(userName, passwd, displayName);
 
-	            if (userAdded) {
+	            if (user != null) {
 	            	System.out.println("Rekisteröityminen onnistui!"); //$NON-NLS-1$
 	            }
 
-	        } catch (SQLException ex) {
+	        } catch (Exception ex) {
 	            System.out.println("Rekisteröityminen epäonnistui"); //$NON-NLS-1$
 	            ex.printStackTrace();
 	        }
@@ -145,8 +144,8 @@ public class FXMLController implements Initializable {
 
     }
 
-    //Siirtyminen kalenterinäkymään
-    private void moveToCalendar(ActionEvent event) throws IOException {
+   
+    private void moveToCalendarScene(ActionEvent event) throws IOException {
     	if (langChoice.getValue().toString().contains("suomi")) {
     		Locale currentLocale = new Locale("fi","FI");
         	Locale.setDefault(currentLocale);
@@ -170,7 +169,7 @@ public class FXMLController implements Initializable {
         stage.setScene(scene);
 
         stage.show();
-        controller.setKayttaja(kayttaja);
+        controller.setUser(user);
 
 
 
@@ -182,7 +181,7 @@ public class FXMLController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
     	resources = ResourceBundle.getBundle("MessagesBundle",Locale.getDefault());
 
-    	handler = new DatabaseHandler(resources);
+    	dBService = new DatabaseService(resources);
     	if(langChoice != null) {
     		langChoice.getSelectionModel().select(1);
     	}

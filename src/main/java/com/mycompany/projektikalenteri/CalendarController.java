@@ -24,7 +24,7 @@ import javafx.scene.input.MouseEvent;
 
 public class CalendarController {
 
-	private Kayttaja kayttaja;
+	private LoggedInUser user;
 	private Calendar calendar;
 	@FXML
 	private ResourceBundle resources;
@@ -39,7 +39,7 @@ public class CalendarController {
 	private ListView ownProjects;
 	@FXML
 	private ListView otherProjects;
-	private List<Projekti> list;
+	private List<Project> listOfOwnProjects;
 
 	private void fillMonthPane() throws IOException {
 		monthName.setText(this.calendar.getMonthName() + "   " + this.calendar.getYear());
@@ -79,7 +79,6 @@ public class CalendarController {
 
 	@FXML
 	private void addEntry(ActionEvent event) {
-		EntryScreenController c = new EntryScreenController();
 		final Stage dialog = new Stage();
 
 		try {
@@ -95,7 +94,7 @@ public class CalendarController {
 			dialog.setScene(scene);
 
 			dialog.show();
-			controller.setKayttaja(kayttaja);
+			controller.setUser(user);
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -119,7 +118,7 @@ public class CalendarController {
 			dialog.setScene(scene);
 
 			dialog.show();
-			controller.setAll(kayttaja, this);
+			controller.setAll(user, this);
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -140,48 +139,48 @@ public class CalendarController {
 
 	}
 
-	public Kayttaja getKayttaja() {
-		return kayttaja;
+	public LoggedInUser getUser() {
+		return this.user;
 
 	}
 
-	public void setKayttaja(Kayttaja kayttaja) {
-		this.kayttaja = kayttaja;
-		kayttaja.changeHandlersResourceBundle(resources);
+	public void setUser(LoggedInUser user) {
+		this.user = user;
 		fillInfo();
 
 	}
 
 	public void fillInfo() {
-		String text = resources.getString("user") + ": " + kayttaja.getKayttajatunnus();
+		String text = resources.getString("user") + ": " + user.getUserName();
 
 		infoText.setText(text);
-		list = kayttaja.getPomona();
-		List<Projekti> list2 = kayttaja.getTekijana();
-		List<String> list3 = new ArrayList();
-		List<String> list4 = new ArrayList();
-		for (Projekti p : list) {
-			list3.add(p.getNimi());
+		listOfOwnProjects = user.getProjectsWhereLeader();
+		List<Project> listOfOtherProjects = user.getProjectsWhereMember();
+		List<String> ownProjectNames = new ArrayList();
+		List<String> otherProjectNames = new ArrayList();
+		for (Project p : listOfOwnProjects) {
+			ownProjectNames.add(p.getName());
 
 		}
-		for (Projekti p : list2) {
-			list4.add(p.getNimi());
+		for (Project p : listOfOtherProjects) {
+			otherProjectNames.add(p.getName());
+
 		}
-		ObservableList<String> items = FXCollections.observableArrayList(list3);
-		ObservableList<String> items2 = FXCollections.observableArrayList(list4);
+		ObservableList<String> ownProjectsOList = FXCollections.observableArrayList(ownProjectNames);
+		ObservableList<String> otherProjectsOList = FXCollections.observableArrayList(otherProjectNames);
 
-		ownProjects.setItems(items);
-
-		if (!items2.isEmpty()) {
-			otherProjects.setItems(items);
-
+		if (!ownProjectsOList.isEmpty()) {
+			ownProjects.setItems(ownProjectsOList);
+		}
+		if (!otherProjectsOList.isEmpty()) {
+			otherProjects.setItems(otherProjectsOList);
 		}
 
 	}
 
 	@FXML
 	public void projectSettings(MouseEvent click) {
-		if (click.getClickCount() == 2 && !list.isEmpty()) {
+		if (click.getClickCount() == 2 && !listOfOwnProjects.isEmpty()) {
 			final Stage dialog = new Stage();
 			Parent root;
 			try {
@@ -196,15 +195,15 @@ public class CalendarController {
 				dialog.setScene(scene);
 
 				dialog.show();
-				Projekti p = null;
-				String s = ownProjects.getSelectionModel().getSelectedItem().toString();
-				for (Projekti pr : list) {
-					if (pr.getNimi().equals(s)) {
-						p = pr;
+				Project selectedProject = null;
+				String projectName = ownProjects.getSelectionModel().getSelectedItem().toString();
+				for (Project project : listOfOwnProjects) {
+					if (project.getName().equals(projectName)) {
+						selectedProject = project;
 						break;
 					}
 				}
-				controller.setAll(kayttaja, p, this);
+				controller.setAll(user, selectedProject, this);
 
 				controller.setItems();
 

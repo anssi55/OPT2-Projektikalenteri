@@ -48,12 +48,12 @@ import javafx.scene.layout.AnchorPane;
 
 
 public class EntryScreenController {
-	private Kayttaja kayttaja;
-	private List<Projekti> list;
-	private List<Projekti> list2;
+	private LoggedInUser user;
+	private List<Project> projectWhereLeader;
+	private List<Project> projectWhereMember;
 	private int splitter;
 	
-	private DatabaseHandler handler;
+	private DatabaseService dbService;
 	@FXML
 	private ChoiceBox startHour;
 	@FXML
@@ -166,13 +166,17 @@ public class EntryScreenController {
 						String startTime = startDate.getValue().toString() +"-"+startHour.getValue()+"-"+startMinute.getValue();
 						String endTime = endDate.getValue().toString() +"-"+endHour.getValue()+"-"+endMinute.getValue();
 						int c = Character.getNumericValue(projectName.charAt(0));
-						boolean success;
+						try {
 						if (c == 1) {
-							success = kayttaja.addPersonalEntry(startTime, endTime, messageField.getText());
+							user.CreatePersonalEntry(startTime, endTime, messageField.getText());
 						} else if(c < splitter) {
-							success = kayttaja.addProjectEntry(startTime, endTime, messageField.getText(), list.get(c-2));
+							user.createProjectEntry(startTime, endTime, messageField.getText(), projectWhereLeader.get(c-2));
 						} else {
-							success = kayttaja.addProjectEntry(startTime, endTime, messageField.getText(), list.get(c- splitter - 2));
+							user.createProjectEntry(startTime, endTime, messageField.getText(), projectWhereMember.get(c- splitter - 2));
+						}
+						} catch(Exception e) {
+							System.out.print(e);
+		
 						}
 						close(event);
 					}
@@ -203,22 +207,22 @@ public class EntryScreenController {
 	    final Stage stage = (Stage) source.getScene().getWindow();
 	    stage.close();	
 	}
-	public void setKayttaja(Kayttaja k) {
+	public void setUser(LoggedInUser user) {
 		int orderNumber = 1;
-		this.kayttaja = k;
+		this.user = user;
 		
-		list = kayttaja.getPomona();
-		list2 = kayttaja.getTekijana();
-		List<String> list3 = new ArrayList();
+		projectWhereLeader = user.getProjectsWhereLeader();
+		projectWhereMember = user.getProjectsWhereMember();
+		List<String> list3 = new ArrayList<String>();
 		list3.add(orderNumber + ": " + resources.getString("EntryScreenController.personal"));
 		orderNumber++;
-		for (Projekti p: list) {
-			list3.add(orderNumber + ": " +p.getNimi());
+		for (Project p: projectWhereLeader) {
+			list3.add(orderNumber + ": " +p.getName());
 			orderNumber++;
 		}
 		splitter = orderNumber;
-		for (Projekti p: list2) {
-			list3.add(orderNumber + ": " + p.getNimi());
+		for (Project p: projectWhereMember) {
+			list3.add(orderNumber + ": " + p.getName());
 			orderNumber++;
 		}
 		ObservableList<String> items = FXCollections.observableArrayList(list3);

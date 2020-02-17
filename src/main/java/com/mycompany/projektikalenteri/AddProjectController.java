@@ -11,7 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
 public class AddProjectController {
-	private User user;
+	private LoggedInUser user;
 	@FXML
 	private TextField projectnameTextfield;
 	@FXML
@@ -22,14 +22,15 @@ public class AddProjectController {
 
 	@FXML
 	private void createProject(ActionEvent event) {
-		String s = projectnameTextfield.getText();
-		if (!s.equals("")) {
-
-			boolean b = user.addProject(s, promptCreateProjectText);
-			if (b == true) {
+		String projectName = projectnameTextfield.getText();
+		if (!projectName.equals("")) {
+			try {
+				user.createProject(projectName);
 				promptCreateProjectText.setFill(Color.GREEN);
-				promptCreateProjectText.setText(s + " " + resources.getString("projectCreationSuccessful"));
-				c.fillInfo();
+				promptCreateProjectText.setText(projectName + " " + resources.getString("projectCreationSuccessful"));
+				controller.fillInfo();
+			} catch(Exception e) {
+				
 			}
 
 		} else {
@@ -46,7 +47,7 @@ public class AddProjectController {
 		stage.close();
 	}
 
-	public void setAll(User user, CalendarController controller) {
+	public void setAll(LoggedInUser user, CalendarController controller) {
 		this.user = user;
 		this.controller = controller;
 	}
