@@ -1,12 +1,9 @@
 package com.mycompany.projektikalenteri;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.ResourceBundle;
 
-import main.java.com.mycompany.projektikalenteri.ProjectCalendarEntry;
-import main.java.com.mycompany.projektikalenteri.User;
+import java.util.ArrayList;
+
+
 
 public class Project {
     private int id;
@@ -43,7 +40,7 @@ public class Project {
         this.groupLeader = groupLeader;
     }
 
-    public String getGroupLeader() {
+    public User getGroupLeader() {
         return this.groupLeader;
     }
 
@@ -59,6 +56,13 @@ public class Project {
 
     public ArrayList<User> getTeamMembers() {
         return this.teamMembers;
+    }
+    public ArrayList<String> getTeamMemberNames() {
+    	ArrayList<String> listOfNames = new ArrayList<String>();
+    	for (User u : this.teamMembers) {
+    		listOfNames.add(u.getDisplayName());
+    	}
+    	return listOfNames;
     }
 
     public void setTeamMember(User teamMember) {
