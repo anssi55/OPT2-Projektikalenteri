@@ -1,68 +1,69 @@
 package com.mycompany.projektikalenteri;
 
-import java.util.Date;
 import java.util.ResourceBundle;
-import java.util.LocalDate;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.DayOfWeek;
 
 public class Calendar {
 	private ResourceBundle messages;
-	private java.time.LocalDate date;
+	private LocalDate date;
 
 	public Calendar(ResourceBundle messages) {
 		this.messages = messages;
 		this.date = LocalDate.now();
 	}
 
-	public int getDayOfWeek() {
-		return date.getDayOfWeek();
+	public DayOfWeek getDayOfWeek() {
+		return this.date.getDayOfWeek();
 	}
 
 	public int getDayOfMonth() {
-		return date.getDayOfMonth();
+		return this.date.getDayOfMonth();
 	}
 
 	public int getFirstDayOfMonth() {
-		return date.withDayOfMonth(1);
+		return this.date.withDayOfMonth(1).getDayOfMonth();
 	}
 
 	public int getMaxDaysInMonth() {
-		return date.plusDays(daysToAdd);
+		return this.date.lengthOfMonth();
 	}
 
-	public Date getDate() {
+	public LocalDate getDate() {
 		return this.date;
 	}
 
-	public int getMonth() {
+	public Month getMonth() {
 		return this.date.getMonth();
 	}
 
 	public String getMonthName() {
-		switch (this.date.getMonth()) {
+		switch (this.date.getMonth().getValue()) {
 		case 0:
-			return messages.getString("january");
+			return this.messages.getString("january");
 		case 1:
-			return messages.getString("february");
+			return this.messages.getString("february");
 		case 2:
-			return messages.getString("march");
+			return this.messages.getString("march");
 		case 3:
-			return messages.getString("april");
+			return this.messages.getString("april");
 		case 4:
-			return messages.getString("may");
+			return this.messages.getString("may");
 		case 5:
-			return messages.getString("june");
+			return this.messages.getString("june");
 		case 6:
-			return messages.getString("july");
+			return this.messages.getString("july");
 		case 7:
-			return messages.getString("august");
+			return this.messages.getString("august");
 		case 8:
-			return messages.getString("september");
+			return this.messages.getString("september");
 		case 9:
-			return messages.getString("october");
+			return this.messages.getString("october");
 		case 10:
-			return messages.getString("november");
+			return this.messages.getString("november");
 		case 11:
-			return messages.getString("december");
+			return this.messages.getString("december");
 
 		}
 		return "";
