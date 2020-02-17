@@ -15,9 +15,9 @@ public class CalendarEntry {
         this.endTime = endTime;
     }
 
-    public void setTimes(String alkuaika, String loppuaika) {
-        this.alkuaika = alkuaika;
-        this.loppuaika = loppuaika;
+    public void setTimes(LocalDate startTime, LocalDate endTime) {
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 
     public int getId() {
