@@ -1,16 +1,9 @@
 package com.mycompany.projektikalenteri;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
-import javafx.scene.text.Text;
-import javafx.scene.paint.Color;
-
-/**
- *
- * @author anssi
- */
 public class DatabaseService {
     private ResourceBundle resources;
     static Connection connection = null;
@@ -39,14 +32,15 @@ public class DatabaseService {
         }
     }
 
-    public LoggedUser createUser(String userName, String password, String displayName) throws Exception {
-        int i;
+
+    public LoggedInUser createUser(String userName, String password, String displayName) throws Exception {
+        int id = -1;
         try {
-            String insertString = "INSERT INTO person (user_name, password, display_name) " + "VALUES (?, ?, ?)";
+            String query = "INSERT INTO person (user_name, password, display_name) " + "VALUES (?, ?, ?)";
             connection.setAutoCommit(false);
-            preparedStatement = connection.prepareStatement(insertString, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, user);
-            preparedStatement.setString(2, passwordService.CryptPassword(password));
+            preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, userName);
+            preparedStatement.setString(2, PasswordService.generateSecurePassword(password));
             preparedStatement.setString(3, displayName);
             preparedStatement.executeUpdate();
             connection.commit();
@@ -54,8 +48,10 @@ public class DatabaseService {
 
             if (rs.next()) {
                 id = rs.getInt("id");
+            } else {
+            	throw new Exception(resources.getString("databaseError"));
             }
-            LoggedUser user = new LoggedUser(id, userName, displayName);
+            LoggedInUser user = new LoggedInUser(id, userName, displayName);
             return user;
 
         } catch (SQLException e) {
@@ -63,58 +59,82 @@ public class DatabaseService {
         }
 
     }
+    public CalendarEntry createCalendarEntry(LoggedInUser user, String startTime, String endTime,
+			String entry) throws Exception {
 
-    public boolean createCalendarEntry(Kayttaja user, Projekti project, LocalDate startDate, LocalDate endDate,
-            String entry) throws SQLException {
-
-        int id;
-        int projectId = null;
-        try {
-            if (project) {
-                projectId = "" + project.getId();
-            }
-            String insertString = "INSERT INTO Entry (id, project_id, start_time, end_time, entry) "
-                    + "VALUES (?, ?, ?, ?, ?)";
-            preparedStatement = connection.prepareStatement(insertString, Statement.RETURN_GENERATED_KEYS);
+        int id = -1;
+      try {
+       
+            String query = "INSERT INTO Entry (person_id, start_time, end_time, entry) "
+                    + "VALUES (?, ?, ?, ?)";
+            preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, user.getId());
-            preparedStatement.setInt(2, projectId);
-            preparedStatement.setString(3, startDate);
-            preparedStatement.setString(4, endDate);
+            preparedStatement.setString(2, startTime);
+            preparedStatement.setString(3, endTime);
+            preparedStatement.setString(4, entry);
+            preparedStatement.executeUpdate();
+            ResultSet rs = preparedStatement.getGeneratedKeys();
+
+            if (rs.next()) {
+                id = rs.getInt("id");
+            } else {
+            	throw new Exception(resources.getString("databaseError"));
+            }
+          
+           CalendarEntry calendarEntry = new CalendarEntry(id, entry, LocalDate.parse(startTime), LocalDate.parse(endTime));      
+
+            return calendarEntry;
+
+        } catch (SQLException e) {
+
+        	throw new Exception(resources.getString("databaseError"));
+
+        }
+	}
+
+    public ProjectCalendarEntry createProjectCalendarEntry(User user, Project project, String startTime, String endTime,
+            String entry) throws Exception {
+
+        int id = -1;
+      try {
+       
+            String query = "INSERT INTO Entry (person_id, project_id, start_time, end_time, entry) "
+                    + "VALUES (?, ?, ?, ?, ?)";
+            preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setInt(1, user.getId());
+            preparedStatement.setInt(2, project.getId());
+            preparedStatement.setString(3, startTime);
+            preparedStatement.setString(4, endTime);
             preparedStatement.setString(5, entry);
             preparedStatement.executeUpdate();
             ResultSet rs = preparedStatement.getGeneratedKeys();
 
             if (rs.next()) {
                 id = rs.getInt("id");
-            }
-            if (project) {
-                Kalenterimerkinta calendarEntry = new Kalenterimerkinta(id, project, entry);
             } else {
-                Kalenterimerkinta calendarEntry = new Kalenterimerkinta(id, entry);
+            	throw new Exception(resources.getString("databaseError"));
             }
+          
+           ProjectCalendarEntry calendarEntry = new ProjectCalendarEntry(id, entry, LocalDate.parse(startTime), LocalDate.parse(endTime), project.getGroupLeader());      
 
-            user.lisaaMerkinnat(calendarEntry);
+            return calendarEntry;
 
         } catch (SQLException e) {
 
-            e.printStackTrace();
+        	throw new Exception(resources.getString("databaseError"));
 
         }
-        if (success == 1) {
-            return true;
-        }
-
-        return false;
+        
     }
 
     public Project createProject(String name, User user) throws Exception {
-        int id;
+        int id = -1;
         ResultSet rs;
         try {
 
-            String queryString = "SELECT id from project " + "WHERE name = ?  AND person_id = ?";
+            String query = "SELECT id from project " + "WHERE name = ?  AND person_id = ?";
 
-            preparedStatement = connection.prepareStatement(queryString);
+            preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, name);
             preparedStatement.setInt(2, user.getId());
             rs = preparedStatement.executeQuery();
@@ -123,17 +143,19 @@ public class DatabaseService {
                 throw new Exception(resources.getString("nameInUse"));
             }
 
-            String insertString = "INSERT INTO project (name, person_id) " + "VALUES (?, ?)";
+            String insertQuery = "INSERT INTO project (name, person_id) " + "VALUES (?, ?)";
 
-            preparedStatement = c.prepareStatement(insertString, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement = connection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, name);
             preparedStatement.setInt(2, user.getId());
-            insertProject.executeUpdate();
+            preparedStatement.executeUpdate();
             rs = preparedStatement.getGeneratedKeys();
             if (rs.next()) {
                 id = rs.getInt("id");
+            } else {
+            	throw new Exception(resources.getString("databaseError"));
             }
-            Project project = new Project(id, name, groupLeader);
+            Project project = new Project(id, name, user);
             return project;
 
         } catch (SQLException e) {
@@ -142,10 +164,10 @@ public class DatabaseService {
 
     }
 
-    public LoggedInUser loadLoggedInUser(String userName, String passW) throws Exception {
-        LoggedUser user;
-        String insertString = "SELECT * FROM person " + "WHERE user_name = ?";
-        preparedStatement = connection.prepareStatement(insertString);
+    public LoggedInUser loadLoggedInUser(String userName, String providedPassword) throws Exception {
+        LoggedInUser user;
+        String query = "SELECT * FROM person " + "WHERE user_name = ?";
+        preparedStatement = connection.prepareStatement(query);
         preparedStatement.setString(1, userName);
         ResultSet rs = preparedStatement.executeQuery();
         if (rs.next()) {
@@ -153,15 +175,18 @@ public class DatabaseService {
             int userId = rs.getInt("id");
             String displayName = rs.getString("display_name");
             String email = rs.getString("user_name");
-            String password = rs.getString("password");
-            passwordService.checkPassword(password, passW);
-            user = new LoggedUser(id, email, dname);
-            loadProjects(user, userId);
-            return user;
+            String securedPassword = rs.getString("password");
+            boolean passwordIsCorrect = PasswordService.verifyUserPassword(providedPassword, securedPassword);
+            if(passwordIsCorrect) { 
+            	user = new LoggedInUser(userId, email, displayName);
+            	loadProjects(user, userId);
+            	return user;
+            } else {
+            	throw new Exception(resources.getString("databaseError"));
+            }
         } else {
             throw new Exception(resources.getString("databaseError"));
         }
-        return user;
 
     }
 
@@ -182,40 +207,41 @@ public class DatabaseService {
 
     }
 
-    public void loadProjects(LoggerUser user, int userId) throws Exception {
+    public void loadProjects(LoggedInUser user, int userId) throws Exception {
 
-        String queryProjectWhereLeaderString = "SELECT * from project " + "WHERE user_id = ?";
+        String queryProjectWhereLeader = "SELECT * from project " + "WHERE user_id = ?";
         connection.setAutoCommit(false);
-        insertUser = connection.prepareStatement(queryProjectWhereLeaderString);
-        insertUser.setInt(1, userID);
+        preparedStatement = connection.prepareStatement(queryProjectWhereLeader);
+        preparedStatement.setInt(1, userId);
 
-        ResultSet rs = insertUser.executeQuery();
+        ResultSet rs = preparedStatement.executeQuery();
         connection.commit();
 
         while (rs.next()) {
             int id = rs.getInt("project_id");
             String name = rs.getString("name");
-            int groupLeader = rs.getInt("user_id");
-            Project project = new Project(id, name);
-            loadProjectEntrys(project, id);
+            int groupLeaderId = rs.getInt("user_id");
+            User groupLeader = loadUser(groupLeaderId);
+            Project project = new Project(id,name, groupLeader);
+            loadProjectEntries(project);
             user.setProjectWhereLeader(project);
         }
 
-        String queryProjectWhereMemberString = "SELECT project_member.project_id, project.person_id, project.name FROM project_members "
+        String queryProjectWhereMember = "SELECT project_member.project_id, project.person_id, project.name FROM project_members "
                 + "INNER JOIN project ON project_member.person_id = project.person_id WHERE person_id = ?";
         connection.setAutoCommit(false);
-        preparedStatement = connection.prepareStatement(queryProjectWhereMemberString);
-        preparedStatement.setInt(1, userID);
+        preparedStatement = connection.prepareStatement(queryProjectWhereMember);
+        preparedStatement.setInt(1, userId);
 
-        rs = insertUser2.executeQuery();
-        c.commit();
+        rs = preparedStatement.executeQuery();
+        connection.commit();
 
         while (rs.next()) {
-            int projectMemberId = rs.getInt("project_members_id");
+            int projectId = rs.getInt("project_id");
             String name = rs.getString("name");
             int projectLeaderId = rs.getInt("person_id");
             User projectLeader = loadUser(projectLeaderId);
-            Project project = new Project(id, name, projectLeader);
+            Project project = new Project(projectId, name, projectLeader);
             loadProjectEntries(project);
             user.setProjectWhereLeader(project);
         }
@@ -223,25 +249,24 @@ public class DatabaseService {
 
     public void loadProjectEntries(Project project) throws Exception {
         try {
-            String queryString = "SELECT * from project_entry WHERE project_id = ?";
+            String query = "SELECT * from project_entry WHERE project_id = ?";
 
             connection.setAutoCommit(false);
-            preparedStatement = connection.prepareStatement(queryString);
+            preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, project.getId());
 
-            ResultSet rs = insertUser.executeQuery();
+            ResultSet rs = preparedStatement.executeQuery();
             connection.commit();
 
             while (rs.next()) {
                 int id = rs.getInt("id");
-                int userId = rs.getInt("user_id");
+                int userId = rs.getInt("person_id");
                 User user = project.getTeamMember(userId);
                 String startTime = rs.getString("start_time");
                 String endTime = rs.getString("end_time");
                 String entry = rs.getString("entry");
-                ProjectCalendarEntry projectCalendarEntry = new ProjectCalendarEntry(id, entry, startTime, endTime,
-                        user);
-                projectCalendarEntry.setAika(startTime, endTime);
+                ProjectCalendarEntry projectCalendarEntry = new ProjectCalendarEntry(id, entry, LocalDate.parse(startTime), LocalDate.parse(endTime),user);
+               
                 project.setEntry(projectCalendarEntry);
             }
         } catch (Exception e) {
@@ -249,15 +274,15 @@ public class DatabaseService {
         }
     }
 
-    public void loadProjectMembers(Project project) {
+    public void loadProjectMembers(Project project) throws Exception {
         try {
-            String insertString = "SELECT project_member.person_id, person.user_name, person.display_name FROM project_members "
+            String query = "SELECT project_member.person_id, person.user_name, person.display_name FROM project_members "
                     + "INNER JOIN person ON project_member.person_id = person.id WHERE user_id = ?";
-            preparedStatement = connection.prepareStatement(insertString);
+            preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, project.getId());
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                String userId = rs.getString("person_id");
+                int userId = rs.getInt("person_id");
                 String userName = rs.getString("user_name");
                 String displayName = rs.getString("display_name");
                 User teamMember = new User(userId, userName, displayName);
@@ -271,13 +296,13 @@ public class DatabaseService {
     public void loadEntries(LoggedInUser user) throws Exception {
 
         try {
-            String queryString = "SELECT * from Entry " + "WHERE user_id = ?";
+            String query = "SELECT * from Entry " + "WHERE user_id = ?";
 
             connection.setAutoCommit(false);
-            preparedStatement = connection.prepareStatement(queryString);
-            preparedStatement.setString(1, id);
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, user.getId());
 
-            rs = preparedStatement.executeQuery();
+            ResultSet rs = preparedStatement.executeQuery();
             connection.commit();
 
             while (rs.next()) {
@@ -285,7 +310,7 @@ public class DatabaseService {
                 String startDate = rs.getString("start_time");
                 String endDate = rs.getString("end_time");
                 String entry = rs.getString("entry");
-                CalendarEntry calendarEntry = new CalendarEntry(id, entry, startDate, endDate);
+                CalendarEntry calendarEntry = new CalendarEntry(id, entry, LocalDate.parse(startDate), LocalDate.parse(endDate));
                 user.setEntry(calendarEntry);
 
             }
@@ -309,5 +334,9 @@ public class DatabaseService {
         }
 
     }
+
+	
+
+	
 
 }
